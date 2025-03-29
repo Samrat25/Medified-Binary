@@ -21,7 +21,9 @@ body {
     font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
-    background-color: #f9f9f9;
+    background: #00C9FF;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #92FE9D, #00C9FF);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #92FE9D, #00C9FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .container {
@@ -80,8 +82,7 @@ ul {
 
 /* Header Styles */
 header {
-    background-color: var(--light-color);
-    box-shadow: var(--shadow);
+    
     position: fixed;
     top: 0;
     left: 0;
@@ -94,6 +95,7 @@ header .container {
     justify-content: space-between;
     align-items: center;
     padding: 15px;
+
 }
 
 .logo h1 {
@@ -127,7 +129,6 @@ nav ul li a:hover, nav ul li a.active {
 /* Hero Section */
 .hero {
     padding: 120px 0 80px;
-    background-color: #f0f8ff;
 }
 
 .hero .container {
@@ -144,13 +145,31 @@ nav ul li a:hover, nav ul li a.active {
     font-size: 3rem;
     margin-bottom: 20px;
     color: var(--dark-color);
+    animation-duration: 3s;
+    animation-name: slide-in;
+    animation-iteration-count: 1;
 }
 
 .hero-content p {
     font-size: 1.2rem;
     margin-bottom: 30px;
     color: #666;
+    animation-duration: 3s;
+    animation-name: slide-in;
+    animation-iteration-count: 1;
 }
+@keyframes slide-in {
+    from {
+      translate: 150vw 0;
+      scale: 200% 1;
+    }
+  
+    to {
+      translate: 0 0;
+      scale: 100% 1;
+    }
+  }
+  
 
 .hero-buttons {
     display: flex;
@@ -172,7 +191,6 @@ nav ul li a:hover, nav ul li a.active {
 /* Features Section */
 .features {
     padding: 80px 0;
-    background-color: var(--light-color);
 }
 
 .feature-grid {
@@ -210,7 +228,7 @@ nav ul li a:hover, nav ul li a.active {
 /* About Section */
 .about {
     padding: 80px 0;
-    background-color: #f9f9f9;
+    
 }
 
 .about-content {
@@ -248,7 +266,7 @@ nav ul li a:hover, nav ul li a.active {
 
 /* Diagnosis Section */
 .diagnosis-section {
-    padding: 40px 0;
+    padding: 20px 0;
 }
 
 .diagnosis-content {
@@ -288,7 +306,7 @@ nav ul li a:hover, nav ul li a.active {
 /* Disease Prediction Section */
 .prediction-section {
     padding: 80px 0;
-    background-color: #f9f9f9;
+    
 }
 
 .prediction-content {
@@ -328,15 +346,15 @@ nav ul li a:hover, nav ul li a.active {
 /* Diagnosis and Prediction Page Styles */
 .tool-container {
     max-width: 1000px;
-    margin: 40px auto;
+    margin: 100px auto;
     padding: 30px;
-    background-color: #fff;
+    
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .tool-header {
-    padding-top: 80px;
+    /* padding-top: 80px; */
     text-align: center;
     margin-bottom: 30px;
 }
@@ -359,7 +377,7 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .input-section {
-    background-color: #f9f9f9;
+    
     padding: 30px;
     border-radius: 10px;
     margin-bottom: 30px;
@@ -408,7 +426,6 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .prediction-card {
-    background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -531,7 +548,6 @@ nav ul li a:hover, nav ul li a.active {
 /* Authentication Section */
 .auth-section {
     padding: 100px 0;
-    background-color: var(--light-color);
 }
 
 .auth-container {

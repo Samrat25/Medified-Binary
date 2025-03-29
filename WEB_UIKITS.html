@@ -12,6 +12,60 @@
 
 <body>
     <div id="root"></div>
+    <style>
+        #permissionPopup, #deniedPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            z-index: 1000;
+            height: 150px;
+        }
+        
+        .popup-content {
+            text-align: center;
+        }
+        
+        button {
+            padding: 8px 16px;
+            margin: 10px 5px 0;
+            cursor: pointer;
+            background: #05f;
+            color: white;
+            border-radius: 15px;
+            border: none;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Permission Request Popup -->
+    <div id="permissionPopup">
+        <div class="popup-content">
+            <h2>Camera Access Required</h2>
+            <p>This application needs access to your camera to function properly.</p>
+            <button id="grantPermission">Allow Camera Access</button>
+            <button id="denyPermission">Deny</button>
+        </div>
+    </div>
+    
+    <!-- Permission Denied Popup -->
+    <div id="deniedPopup">
+        <div class="popup-content">
+            <h2>Camera Access Denied</h2>
+            <!-- <p>This application cannot function without camera access.</p> -->
+            <p>Please refresh the page and grant permission when prompted.</p>
+            <button id="tryAgain">Try Again</button>
+        </div>
+    </div>
+    
+    <!-- Video element to show camera feed -->
+    <video id="videoElement" autoplay playsinline></video>  
+    <script src="js/camera.js"></script>
 </body>
 <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
 <script>
