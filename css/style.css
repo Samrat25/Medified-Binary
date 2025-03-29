@@ -88,6 +88,10 @@ header {
     left: 0;
     right: 0;
     z-index: 100;
+    border-bottom: 1px solid #e0e6ed;
+    background: #00C9FF;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #92FE9D, #00C9FF);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #92FE9D, #00C9FF);
 }
 
 header .container {
