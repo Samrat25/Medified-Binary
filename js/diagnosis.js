@@ -1,12 +1,11 @@
 // Sample medicine data (in a real app, this would come from a database)
 const medicineImages = {
-    "Cetirizine": "https://img.freepik.com/free-photo/pills-white-background_23-2147657233.jpg",
-    "Paracetamol": "https://img.freepik.com/free-photo/medicine-capsules-global-health-with-geometric-pattern-digital-remix_53876-104047.jpg",
-    "Vitamin C": "https://img.freepik.com/free-photo/vitamin-c-tablets-orange-background_23-2147749339.jpg",
-    "Oseltamivir": "https://img.freepik.com/free-photo/flu-medicine-capsules_23-2148895575.jpg",
-    "Ibuprofen": "https://img.freepik.com/free-photo/ibuprofen-pills-blue-background_23-2147749342.jpg",
-    "Sumatriptan": "https://img.freepik.com/free-photo/migraine-medicine-capsules_23-2148895576.jpg",
-    "Montelukast": "https://img.freepik.com/free-photo/asthma-medicine-inhaler_23-2148895574.jpg",
+    "Cetirizine": "https://5.imimg.com/data5/SELLER/Default/2023/5/311448434/ML/FE/LQ/180352824/cetfiz-tab.jpeg",
+    "Paracetamol": "https://5.imimg.com/data5/SELLER/Default/2022/8/QM/AX/SS/129887935/paracetamol-tablets-500x500.jpeg",
+    "Oseltamivir": "https://globelapharma.com/wp-content/uploads/2023/03/OSELTAMIVIR.png",
+    "Ibuprofen": "https://5.imimg.com/data5/SELLER/Default/2023/7/327083834/AE/LV/NU/557330/ibuprofen-tablet.jpg",
+    "Sumatriptan": "https://5.imimg.com/data5/AM/FQ/ES/SELLER-67230705/sumatriptan-tablet.jpg",
+    "Montelukast": "https://5.imimg.com/data5/SELLER/Default/2023/1/BR/BM/BR/23618296/montelukast-10-mg-tablet.jpg",
     "default": "https://img.freepik.com/free-photo/medicine-capsules-global-health-with-geometric-pattern-digital-remix_53876-104047.jpg"
 };
 const medicineDatabase = {
