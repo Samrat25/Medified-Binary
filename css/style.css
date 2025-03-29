@@ -24,7 +24,6 @@ body {
     background: #00C9FF;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #92FE9D, #00C9FF);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #92FE9D, #00C9FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
 }
 
 .container {
@@ -83,15 +82,12 @@ ul {
 
 /* Header Styles */
 header {
+    
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 100;
-    border-bottom: 1px solid #e0e6ed;
-    background: #00C9FF;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #92FE9D, #00C9FF);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #92FE9D, #00C9FF);
 }
 
 header .container {
@@ -99,6 +95,7 @@ header .container {
     justify-content: space-between;
     align-items: center;
     padding: 15px;
+
 }
 
 .logo h1 {
