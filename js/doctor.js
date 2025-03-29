@@ -892,7 +892,7 @@ function scheduleAppointment(patientId) {
     alert(`Scheduling functionality for patient ${patientId} not implemented yet.`);
 }
 
-//function startVideoCallWithPatient(patientId) {
-   // const callId = `CALL-${patientId}-${Math.floor(Math.random() * 1000)}`;
-   // window.open(`WEB_UIKITS.html?roomID=${callId}`, '_blank');
-//}
+// function startVideoCallWithPatient(patientId) {
+//    const callId = `CALL-${patientId}-${Math.floor(Math.random() * 1000)}`;
+//    window.open(`WEB_UIKITS.html?roomID=${callId}`, '_blank');
+// }
