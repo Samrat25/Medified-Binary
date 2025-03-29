@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Prediction | MedConnect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1><i class="fas fa-heartbeat"></i> MedConnect</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="diagnosis.html">Diagnosis</a></li>
+                    <li><a href="disease-prediction.html" class="active">Disease Prediction</a></li>
+                    <li><a href="index.html#login-section" class="btn-primary">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="tool-container">
+        <div class="tool-header">
+            <h1>Disease Risk Assessment</h1>
+            <p>Assess your risk for common diseases based on your health parameters and lifestyle factors. This tool is for informational purposes only and should not replace professional medical advice.</p>
+        </div>
+
+        <div class="tool-content">
+            <div class="input-section">
+                <h2>Enter Your Health Information</h2>
+                <form id="predictionForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ageInput">Age:</label>
+                            <input type="number" id="ageInput" min="0" max="120">
+                        </div>
+                        <div class="form-group">
+                            <label for="genderInput">Gender:</label>
+                            <select id="genderInput">
+                                <option value="">Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3>Physical Parameters</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="heightInput">Height (cm):</label>
+                            <input type="number" id="heightInput" min="0" max="300">
+                        </div>
+                        <div class="form-group">
+                            <label for="weightInput">Weight (kg):</label>
+                            <input type="number" id="weightInput" min="0" max="500">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bpSystolicInput">Blood Pressure (Systolic):</label>
+                            <input type="number" id="bpSystolicInput" min="0" max="300" placeholder="e.g., 120">
+                        </div>
+                        <div class="form-group">
+                            <label for="bpDiastolicInput">Blood Pressure (Diastolic):</label>
+                            <input type="number" id="bpDiastolicInput" min="0" max="300" placeholder="e.g., 80">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cholesterolInput">Cholesterol Level (mg/dL):</label>
+                            <input type="number" id="cholesterolInput" min="0" max="500">
+                        </div>
+                        <div class="form-group">
+                            <label for="glucoseInput">Glucose Level (mg/dL):</label>
+                            <input type="number" id="glucoseInput" min="0" max="500">
+                        </div>
+                    </div>
+
+                    <h3>Lifestyle Factors</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="smokingInput">Do you smoke?</label>
+                            <select id="smokingInput">
+                                <option value="">Select option</option>
+                                <option value="no">No</option>
+                                <option value="occasionally">Occasionally</option>
+                                <option value="regularly">Regularly</option>
+                                <option value="heavily">Heavily</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="alcoholInput">Alcohol Consumption:</label>
+                            <select id="alcoholInput">
+                                <option value="">Select option</option>
+                                <option value="none">None</option>
+                                <option value="light">Light (1-2 drinks/week)</option>
+                                <option value="moderate">Moderate (3-7 drinks/week)</option>
+                                <option value="heavy">Heavy (>7 drinks/week)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="exerciseInput">Physical Activity Level:</label>
+                            <select id="exerciseInput">
+                                <option value="">Select option</option>
+                                <option value="sedentary">Sedentary (little to no exercise)</option>
+                                <option value="light">Light (1-3 days/week)</option>
+                                <option value="moderate">Moderate (3-5 days/week)</option>
+                                <option value="active">Active (6-7 days/week)</option>
+                                <option value="veryActive">Very active (physical job or twice daily training)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="sleepInput">Average Sleep Duration (hours):</label>
+                            <input type="number" id="sleepInput" min="0" max="24">
+                        </div>
+                    </div>
+
+                    <h3>Medical History</h3>
+                    <div class="form-group">
+                        <label>Do any of these conditions run in your family? (Select all that apply)</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="familyHistory" value="heartDisease"> Heart Disease</label>
+                            <label><input type="checkbox" name="familyHistory" value="diabetes"> Diabetes</label>
+                            <label><input type="checkbox" name="familyHistory" value="cancer"> Cancer</label>
+                            <label><input type="checkbox" name="familyHistory" value="stroke"> Stroke</label>
+                            <label><input type="checkbox" name="familyHistory" value="hypertension"> Hypertension</label>
+                        </div>
+                    </div>
+
+                    <button type="button" id="getPredictionBtn" class="btn-primary">Get Disease Risk Assessment</button>
+                </form>
+            </div>
+
+            <div class="tool-results" id="predictionResults">
+                <div class="results-header">
+                    <h2>Your Disease Risk Assessment</h2>
+                    <p>Based on the information you provided, here is your risk assessment for common diseases:</p>
+                </div>
+
+                <div class="prediction-card">
+                    <div class="prediction-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="prediction-details">
+                        <h3>Cardiovascular Disease</h3>
+                        <p>Your risk for cardiovascular disease is influenced by your blood pressure, cholesterol levels, and lifestyle factors.</p>
+                        <div class="risk-indicator">
+                            <span class="risk-label">Risk Level:</span>
+                            <div class="risk-bar">
+                                <div class="risk-level risk-medium"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="prediction-card">
+                    <div class="prediction-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div class="prediction-details">
+                        <h3>Type 2 Diabetes</h3>
+                        <p>Your risk for type 2 diabetes is influenced by your BMI, glucose levels, and family history.</p>
+                        <div class="risk-indicator">
+                            <span class="risk-label">Risk Level:</span>
+                            <div class="risk-bar">
+                                <div class="risk-level risk-low"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="prediction-card">
+                    <div class="prediction-icon">
+                        <i class="fas fa-lungs"></i>
+                    </div>
+                    <div class="prediction-details">
+                        <h3>Respiratory Conditions</h3>
+                        <p>Your risk for respiratory conditions is influenced by your smoking habits and environmental factors.</p>
+                        <div class="risk-indicator">
+                            <span class="risk-label">Risk Level:</span>
+                            <div class="risk-bar">
+                                <div class="risk-level risk-high"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendation-section">
+                    <h3>Personalized Recommendations</h3>
+                    <ul class="recommendation-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Consider reducing your sodium intake to help manage blood pressure</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Aim for at least 150 minutes of moderate-intensity exercise per week</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Work toward quitting smoking to significantly reduce your respiratory disease risk</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Schedule regular health check-ups to monitor your cholesterol and blood sugar levels</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Book an appointment with a specialist through MedConnect for personalized advice</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="disclaimer">
+                    <strong>Disclaimer:</strong> This tool provides general information only and is not a substitute for professional medical advice. Always consult with a qualified healthcare provider for proper diagnosis and treatment. Risk assessments are based on statistical models and may not accurately predict individual outcomes.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3><i class="fas fa-heartbeat"></i> MedConnect</h3>
+                    <p>Connecting patients with doctors for better healthcare experience</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#login-section">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-envelope"></i> info@medconnect.com</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MedConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/disease-prediction.js"></script>
+</body>
+</html>
