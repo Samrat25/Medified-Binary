@@ -265,7 +265,7 @@ nav ul li a:hover, nav ul li a.active {
 
 /* Diagnosis Section */
 .diagnosis-section {
-    padding: 40px 0;
+    padding: 20px 0;
 }
 
 .diagnosis-content {
@@ -345,7 +345,7 @@ nav ul li a:hover, nav ul li a.active {
 /* Diagnosis and Prediction Page Styles */
 .tool-container {
     max-width: 1000px;
-    margin: 40px auto;
+    margin: 100px auto;
     padding: 30px;
     
     border-radius: 15px;
@@ -353,7 +353,7 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .tool-header {
-    padding-top: 80px;
+    /* padding-top: 80px; */
     text-align: center;
     margin-bottom: 30px;
 }
