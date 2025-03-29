@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diagnosis Recommendations | MedConnect</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/diagnosis.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -31,125 +32,90 @@
             <h1>Symptom-Based Diagnosis Recommendations</h1>
             <p>Describe your symptoms to get AI-powered diagnosis recommendations. This tool is for informational purposes only and should not replace professional medical advice.</p>
         </div>
-
-        <div class="tool-content">
-            <div class="input-section">
-                <h2>Tell Us About Your Symptoms</h2>
-                <form id="diagnosisForm">
+        <div class="main-content">
+            <div class="diagnosis-section">
+                <div class="card">
+                    <h2 class="card-title">
+                        <span><i class="fas fa-stethoscope"></i> Doctor's Diagnosis</span>
+                    </h2>
+                    
                     <div class="form-group">
-                        <label for="symptomsDescription">Describe your symptoms in detail:</label>
-                        <textarea id="symptomsDescription" rows="5" placeholder="Example: I've had a persistent headache for 3 days, along with a mild fever and fatigue. The pain is mostly on the right side of my head."></textarea>
+                        <label for="patientName">Patient Name</label>
+                        <input type="text" id="patientName" placeholder="Enter patient's full name">
                     </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="durationInput">Duration of symptoms:</label>
-                            <select id="durationInput">
-                                <option value="">Select duration</option>
-                                <option value="hours">Hours</option>
-                                <option value="days">Days</option>
-                                <option value="weeks">Weeks</option>
-                                <option value="months">Months or longer</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="severityInput">Severity:</label>
-                            <select id="severityInput">
-                                <option value="">Select severity</option>
-                                <option value="mild">Mild</option>
-                                <option value="moderate">Moderate</option>
-                                <option value="severe">Severe</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="ageInput">Age:</label>
-                            <input type="number" id="ageInput" min="0" max="120">
-                        </div>
-                        <div class="form-group">
-                            <label for="genderInput">Gender:</label>
-                            <select id="genderInput">
-                                <option value="">Select gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                    </div>
-
+                    
                     <div class="form-group">
-                        <label for="medicalHistoryInput">Relevant medical history (if any):</label>
-                        <textarea id="medicalHistoryInput" rows="3" placeholder="List any pre-existing conditions, allergies, or medications you're currently taking."></textarea>
+                        <label for="patientAge">Patient Age</label>
+                        <input type="number" id="patientAge" placeholder="Enter patient's age">
                     </div>
-
-                    <button type="button" id="getDiagnosisBtn" class="btn-primary">Get Diagnosis Recommendations</button>
-                </form>
+                    
+                    <div class="form-group">
+                        <label for="patientGender">Patient Gender</label>
+                        <select id="patientGender">
+                            <option value="">Select gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="symptoms">Symptoms</label>
+                        <textarea id="symptoms" placeholder="Describe the patient's symptoms"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="diagnosis">Diagnosis</label>
+                        <input type="text" id="diagnosis" placeholder="Enter the diagnosed disease">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prescription">Prescription Notes</label>
+                        <textarea id="prescription" placeholder="Add any prescription notes or recommendations"></textarea>
+                    </div>
+                    
+                    <button class="btn btn-block" id="submitDiagnosis">
+                        <i class="fas fa-check-circle"></i> Submit Diagnosis
+                    </button>
+                    
+                    <div class="diagnosis-result" id="diagnosisResult">
+                        <div class="diagnosis-title">Diagnosis Result</div>
+                        <p>Patient <strong id="resultName"></strong> has been diagnosed with <strong id="resultDisease"></strong>.</p>
+                        <p>Recommended medicines have been added to your cart.</p>
+                    </div>
+                </div>
             </div>
-
-            <div class="tool-results" id="diagnosisResults">
-                <div class="results-header">
-                    <h2>Possible Conditions</h2>
-                    <p>Based on the symptoms you described, these are potential conditions to consider:</p>
-                </div>
-
-                <div class="prediction-card">
-                    <div class="prediction-icon">
-                        <i class="fas fa-stethoscope"></i>
-                    </div>
-                    <div class="prediction-details">
-                        <h3>Common Cold</h3>
-                        <p>Your symptoms align with those of a common cold, which is a viral infection affecting the upper respiratory tract.</p>
-                        <div class="risk-indicator">
-                            <span class="risk-label">Match:</span>
-                            <div class="risk-bar">
-                                <div class="risk-level risk-high"></div>
-                            </div>
-                        </div>
+            
+            <div class="pharmacy-section">
+                <div class="card">
+                    <h2 class="card-title">
+                        <span><i class="fas fa-prescription-bottle-alt"></i> Recommended Medicines</span>
+                    </h2>
+                    
+                    <div class="medicine-list" id="recommendedMeds">
+                        <!-- Recommended medicines will be added here by JavaScript -->
                     </div>
                 </div>
-
-                <div class="prediction-card">
-                    <div class="prediction-icon">
-                        <i class="fas fa-head-side-cough"></i>
+                
+                <div class="card cart-summary">
+                    <h2 class="card-title">
+                        <span><i class="fas fa-shopping-cart"></i> Your Cart</span>
+                        <span id="cartCount">0</span>
+                    </h2>
+                    
+                    <div class="cart-items" id="cartItems">
+                        <!-- Cart items will be added here by JavaScript -->
+                        <p class="empty-cart-message">Your cart is empty</p>
                     </div>
-                    <div class="prediction-details">
-                        <h3>Seasonal Allergies</h3>
-                        <p>Your symptoms could also indicate seasonal allergies, which occur when your immune system reacts to allergens in the environment.</p>
-                        <div class="risk-indicator">
-                            <span class="risk-label">Match:</span>
-                            <div class="risk-bar">
-                                <div class="risk-level risk-medium"></div>
-                            </div>
-                        </div>
+                    
+                    <div class="cart-total">
+                        <span>Total:</span>
+                        <span id="cartTotal">₹0.00</span>
                     </div>
-                </div>
-
-                <div class="recommendation-section">
-                    <h3>Recommendations</h3>
-                    <ul class="recommendation-list">
-                        <li>
-                            <i class="fas fa-check-circle"></i>
-                            <span>Rest and stay hydrated to help your body recover</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-check-circle"></i>
-                            <span>Consider over-the-counter pain relievers like acetaminophen if appropriate</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-check-circle"></i>
-                            <span>If symptoms worsen or persist for more than a week, consult with a healthcare professional</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-check-circle"></i>
-                            <span>Book an appointment with a doctor through MedConnect for a proper diagnosis</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="disclaimer">
-                    <strong>Disclaimer:</strong> This tool provides general information only and is not a substitute for professional medical advice. Always consult with a qualified healthcare provider for proper diagnosis and treatment.
+                    
+                    <button class="btn btn-success btn-block" id="checkoutBtn" disabled>
+                        <i class="fas fa-credit-card"></i> Proceed to Checkout
+                    </button>
                 </div>
             </div>
         </div>

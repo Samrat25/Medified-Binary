@@ -248,7 +248,7 @@ nav ul li a:hover, nav ul li a.active {
 
 /* Diagnosis Section */
 .diagnosis-section {
-    padding: 80px 0;
+    padding: 40px 0;
 }
 
 .diagnosis-content {
@@ -336,6 +336,7 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .tool-header {
+    padding-top: 80px;
     text-align: center;
     margin-bottom: 30px;
 }
