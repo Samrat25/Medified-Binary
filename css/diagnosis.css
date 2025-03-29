@@ -34,7 +34,7 @@ header {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    border-bottom: 1px solid #e0e6ed;
+    /* border-bottom: 1px solid #e0e6ed; */
     background: #00C9FF;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #92FE9D, #00C9FF);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #92FE9D, #00C9FF);
@@ -54,22 +54,19 @@ header {
 
 nav ul {
     display: flex;
-    list-style: none;
 }
 
 nav ul li {
-    margin-left: 25px;
+    margin-left: 20px;
 }
 
 nav ul li a {
-    text-decoration: none;
-    color: var(--dark);
-    font-weight: 500;
-    transition: color 0.3s;
+    padding: 10px;
+    transition: var(--transition);
 }
 
-nav ul li a:hover {
-    color: var(--primary);
+nav ul li a:hover, nav ul li a.active {
+    color: var(--primary-color);
 }
 
 

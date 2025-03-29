@@ -6,326 +6,87 @@
     <title>MediCare - Diagnosis & Pharmacy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ... (previous CSS remains the same) ... */
+        /* ... (keep all previous CSS the same) ... */
     </style>
 </head>
 <body>
-    <!-- ... (previous HTML remains the same until the script) ... -->
+    <!-- ... (keep all previous HTML the same until the script) ... -->
 
     <script>
-        // Expanded medicine images mapping
-        const medicineImages = {
-            // Pain/Fever Relievers
-            "Paracetamol": "https://img.freepik.com/free-photo/medicine-capsules-global-health-with-geometric-pattern-digital-remix_53876-104047.jpg",
-            "Ibuprofen": "https://img.freepik.com/free-photo/ibuprofen-pills-blue-background_23-2147749342.jpg",
-            "Aspirin": "https://img.freepik.com/free-photo/aspirin-pills-white-background_23-2147657235.jpg",
-            
-            // Antihistamines
-            "Cetirizine": "https://img.freepik.com/free-photo/pills-white-background_23-2147657233.jpg",
-            "Loratadine": "https://img.freepik.com/free-photo/antihistamine-medicine-capsules_23-2148895577.jpg",
-            
-            // Antibiotics
-            "Amoxicillin": "https://img.freepik.com/free-photo/antibiotic-capsules_23-2148895578.jpg",
-            "Azithromycin": "https://img.freepik.com/free-photo/antibiotic-tablets_23-2148895579.jpg",
-            "Ciprofloxacin": "https://img.freepik.com/free-photo/antibiotic-medicine_23-2148895580.jpg",
-            
-            // Gastrointestinal
-            "Omeprazole": "https://img.freepik.com/free-photo/acid-reducer-medicine_23-2148895581.jpg",
-            "Loperamide": "https://img.freepik.com/free-photo/antidiarrheal-medicine_23-2148895582.jpg",
-            
-            // Respiratory
-            "Salbutamol": "https://img.freepik.com/free-photo/asthma-inhaler_23-2148895583.jpg",
-            "Montelukast": "https://img.freepik.com/free-photo/asthma-medicine-inhaler_23-2148895574.jpg",
-            
-            // Others
-            "Vitamin C": "https://img.freepik.com/free-photo/vitamin-c-tablets-orange-background_23-2147749339.jpg",
-            "Multivitamin": "https://img.freepik.com/free-photo/vitamin-supplements_23-2147749340.jpg",
-            "Oseltamivir": "https://img.freepik.com/free-photo/flu-medicine-capsules_23-2148895575.jpg",
-            "Sumatriptan": "https://img.freepik.com/free-photo/migraine-medicine-capsules_23-2148895576.jpg",
-            "default": "https://img.freepik.com/free-photo/medicine-capsules-global-health-with-geometric-pattern-digital-remix_53876-104047.jpg"
-        };
+        // ... (keep medicineImages and medicineDatabase the same) ...
 
-        // Expanded medicine database with more diseases
-        const medicineDatabase = {
-            "Common Cold": [
-                {
-                    id: 1,
-                    name: "Cetirizine",
-                    company: "Zyrtec",
-                    price: 120,
-                    description: "Antihistamine for allergy relief",
-                    dosage: "10mg tablet",
-                    type: "antihistamine"
-                },
-                {
-                    id: 2,
-                    name: "Paracetamol",
-                    company: "Crocin",
-                    price: 25,
-                    description: "Fever reducer and pain reliever",
-                    dosage: "500mg tablet",
-                    type: "painkiller"
-                },
-                {
-                    id: 3,
-                    name: "Vitamin C",
-                    company: "Limcee",
-                    price: 150,
-                    description: "Immune system support",
-                    dosage: "500mg chewable tablet",
-                    type: "supplement"
+        // Case-insensitive disease matching function
+        function findMatchingDisease(userInput) {
+            const diseases = Object.keys(medicineDatabase);
+            const lowerInput = userInput.toLowerCase().trim();
+            
+            // Try exact match first
+            for (const disease of diseases) {
+                if (disease.toLowerCase() === lowerInput) {
+                    return disease;
                 }
-            ],
-            "Flu": [
-                {
-                    id: 4,
-                    name: "Oseltamivir",
-                    company: "Tamiflu",
-                    price: 450,
-                    description: "Antiviral medication for influenza",
-                    dosage: "75mg capsule",
-                    type: "antiviral"
-                },
-                {
-                    id: 2,
-                    name: "Paracetamol",
-                    company: "Crocin",
-                    price: 25,
-                    description: "Fever reducer and pain reliever",
-                    dosage: "500mg tablet",
-                    type: "painkiller"
-                },
-                {
-                    id: 5,
-                    name: "Ibuprofen",
-                    company: "Brufen",
-                    price: 40,
-                    description: "Anti-inflammatory pain reliever",
-                    dosage: "400mg tablet",
-                    type: "anti-inflammatory"
+            }
+            
+            // Try partial matches
+            for (const disease of diseases) {
+                if (disease.toLowerCase().includes(lowerInput)) {
+                    return disease;
                 }
-            ],
-            "Migraine Headache": [
-                {
-                    id: 6,
-                    name: "Sumatriptan",
-                    company: "Imitrex",
-                    price: 320,
-                    description: "For migraine relief",
-                    dosage: "50mg tablet",
-                    type: "migraine"
-                },
-                {
-                    id: 5,
-                    name: "Ibuprofen",
-                    company: "Brufen",
-                    price: 40,
-                    description: "Pain reliever",
-                    dosage: "400mg tablet",
-                    type: "painkiller"
-                }
-            ],
-            "Allergic Rhinitis": [
-                {
-                    id: 1,
-                    name: "Cetirizine",
-                    company: "Zyrtec",
-                    price: 120,
-                    description: "Antihistamine for allergy relief",
-                    dosage: "10mg tablet",
-                    type: "antihistamine"
-                },
-                {
-                    id: 7,
-                    name: "Montelukast",
-                    company: "Singulair",
-                    price: 180,
-                    description: "For asthma and allergy symptoms",
-                    dosage: "10mg tablet",
-                    type: "asthma"
-                },
-                {
-                    id: 8,
-                    name: "Loratadine",
-                    company: "Claritin",
-                    price: 110,
-                    description: "Non-drowsy allergy relief",
-                    dosage: "10mg tablet",
-                    type: "antihistamine"
-                }
-            ],
-            "Strep Throat": [
-                {
-                    id: 9,
-                    name: "Amoxicillin",
-                    company: "Amoxil",
-                    price: 200,
-                    description: "Antibiotic for bacterial infections",
-                    dosage: "500mg capsule",
-                    type: "antibiotic"
-                },
-                {
-                    id: 2,
-                    name: "Paracetamol",
-                    company: "Crocin",
-                    price: 25,
-                    description: "Pain and fever relief",
-                    dosage: "500mg tablet",
-                    type: "painkiller"
-                }
-            ],
-            "Urinary Tract Infection": [
-                {
-                    id: 10,
-                    name: "Ciprofloxacin",
-                    company: "Cipro",
-                    price: 280,
-                    description: "Antibiotic for UTI",
-                    dosage: "500mg tablet",
-                    type: "antibiotic"
-                },
-                {
-                    id: 11,
-                    name: "Paracetamol",
-                    company: "Crocin",
-                    price: 25,
-                    description: "Pain relief",
-                    dosage: "500mg tablet",
-                    type: "painkiller"
-                }
-            ],
-            "Acid Reflux/GERD": [
-                {
-                    id: 12,
-                    name: "Omeprazole",
-                    company: "Prilosec",
-                    price: 160,
-                    description: "Reduces stomach acid production",
-                    dosage: "20mg capsule",
-                    type: "ppi"
-                },
-                {
-                    id: 13,
-                    name: "Antacid",
-                    company: "Gaviscon",
-                    price: 90,
-                    description: "Fast-acting heartburn relief",
-                    dosage: "Chewable tablet",
-                    type: "antacid"
-                }
-            ],
-            "Diarrhea": [
-                {
-                    id: 14,
-                    name: "Loperamide",
-                    company: "Imodium",
-                    price: 85,
-                    description: "Anti-diarrheal medication",
-                    dosage: "2mg capsule",
-                    type: "antidiarrheal"
-                },
-                {
-                    id: 15,
-                    name: "Oral Rehydration Salts",
-                    company: "Electral",
-                    price: 50,
-                    description: "Prevents dehydration",
-                    dosage: "Powder sachet",
-                    type: "electrolyte"
-                }
-            ],
-            "Bronchitis": [
-                {
-                    id: 16,
-                    name: "Azithromycin",
-                    company: "Zithromax",
-                    price: 220,
-                    description: "Antibiotic for respiratory infections",
-                    dosage: "500mg tablet",
-                    type: "antibiotic"
-                },
-                {
-                    id: 17,
-                    name: "Salbutamol",
-                    company: "Ventolin",
-                    price: 190,
-                    description: "Bronchodilator inhaler",
-                    dosage: "100mcg/dose",
-                    type: "bronchodilator"
-                },
-                {
-                    id: 2,
-                    name: "Paracetamol",
-                    company: "Crocin",
-                    price: 25,
-                    description: "Fever reducer",
-                    dosage: "500mg tablet",
-                    type: "painkiller"
-                }
-            ],
-            "Hypertension": [
-                {
-                    id: 18,
-                    name: "Amlodipine",
-                    company: "Norvasc",
-                    price: 150,
-                    description: "Calcium channel blocker",
-                    dosage: "5mg tablet",
-                    type: "antihypertensive"
-                },
-                {
-                    id: 19,
-                    name: "Losartan",
-                    company: "Cozaar",
-                    price: 180,
-                    description: "Angiotensin receptor blocker",
-                    dosage: "50mg tablet",
-                    type: "antihypertensive"
-                }
-            ],
-            "Type 2 Diabetes": [
-                {
-                    id: 20,
-                    name: "Metformin",
-                    company: "Glucophage",
-                    price: 130,
-                    description: "Improves insulin sensitivity",
-                    dosage: "500mg tablet",
-                    type: "antidiabetic"
-                },
-                {
-                    id: 21,
-                    name: "Glibenclamide",
-                    company: "Daonil",
-                    price: 140,
-                    description: "Stimulates insulin secretion",
-                    dosage: "5mg tablet",
-                    type: "antidiabetic"
-                }
-            ],
-            "Vitamin Deficiency": [
-                {
-                    id: 22,
-                    name: "Multivitamin",
-                    company: "Supradyn",
-                    price: 200,
-                    description: "Complete daily vitamins",
-                    dosage: "1 tablet daily",
-                    type: "supplement"
-                },
-                {
-                    id: 23,
-                    name: "Vitamin D",
-                    company: "Calcirol",
-                    price: 175,
-                    description: "Vitamin D supplement",
-                    dosage: "60K IU capsule",
-                    type: "supplement"
-                }
-            ]
-        };
+            }
+            
+            // Try common alternative spellings
+            const alternatives = {
+                "flu": "Flu (Influenza)",
+                "cold": "Common Cold",
+                "headache": "Migraine Headache",
+                "allergy": "Allergic Rhinitis",
+                "strep": "Strep Throat",
+                "uti": "Urinary Tract Infection",
+                "gerd": "Acid Reflux/GERD",
+                "diarrhoea": "Diarrhea",
+                "diarrhea": "Diarrhea",
+                "bronchitis": "Bronchitis",
+                "high blood pressure": "Hypertension",
+                "hypertension": "Hypertension",
+                "diabetes": "Type 2 Diabetes",
+                "vitamin deficiency": "Vitamin Deficiency"
+            };
+            
+            if (alternatives[lowerInput]) {
+                return alternatives[lowerInput];
+            }
+            
+            return null;
+        }
 
-        // ... (rest of the JavaScript remains the same) ...
+        // Updated submitDiagnosis function with case-insensitive matching
+        function submitDiagnosis() {
+            const patientName = document.getElementById('patientName').value;
+            const diagnosisInput = document.getElementById('diagnosis').value;
+            
+            if (!patientName || !diagnosisInput) {
+                alert('Please enter patient name and diagnosis');
+                return;
+            }
+            
+            // Find the matching disease (case-insensitive)
+            const matchedDisease = findMatchingDisease(diagnosisInput);
+            
+            if (!matchedDisease) {
+                alert('No matching disease found. Please try a different description.');
+                return;
+            }
+            
+            // Show diagnosis result
+            resultName.textContent = patientName;
+            resultDisease.textContent = matchedDisease;
+            diagnosisResult.classList.add('show');
+            
+            // Show recommended medicines
+            showRecommendedMedicines(matchedDisease);
+        }
+
+        // ... (keep all other JavaScript functions the same) ...
     </script>
 </body>
 </html>

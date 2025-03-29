@@ -19,6 +19,9 @@ body {
     background-color: #f9f9f9;
     color: var(--dark-gray);
     line-height: 1.6;
+    background: #00C9FF;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #92FE9D, #00C9FF);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #92FE9D, #00C9FF);
 }
 
 .container {

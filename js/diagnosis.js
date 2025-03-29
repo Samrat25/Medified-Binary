@@ -501,3 +501,73 @@ toastStyles.textContent = `
     }
 `;
 document.head.appendChild(toastStyles);
+
+function findMatchingDisease(userInput) {
+    const diseases = Object.keys(medicineDatabase);
+    const lowerInput = userInput.toLowerCase().trim();
+    
+    // Try exact match first
+    for (const disease of diseases) {
+        if (disease.toLowerCase() === lowerInput) {
+            return disease;
+        }
+    }
+    
+    // Try partial matches
+    for (const disease of diseases) {
+        if (disease.toLowerCase().includes(lowerInput)) {
+            return disease;
+        }
+    }
+    
+    // Try common alternative spellings
+    const alternatives = {
+        "flu": "Flu (Influenza)",
+        "cold": "Common Cold",
+        "headache": "Migraine Headache",
+        "allergy": "Allergic Rhinitis",
+        "strep": "Strep Throat",
+        "uti": "Urinary Tract Infection",
+        "gerd": "Acid Reflux/GERD",
+        "diarrhoea": "Diarrhea",
+        "diarrhea": "Diarrhea",
+        "bronchitis": "Bronchitis",
+        "high blood pressure": "Hypertension",
+        "hypertension": "Hypertension",
+        "diabetes": "Type 2 Diabetes",
+        "vitamin deficiency": "Vitamin Deficiency"
+    };
+    
+    if (alternatives[lowerInput]) {
+        return alternatives[lowerInput];
+    }
+    
+    return null;
+}
+
+// Updated submitDiagnosis function with case-insensitive matching
+function submitDiagnosis() {
+    const patientName = document.getElementById('patientName').value;
+    const diagnosisInput = document.getElementById('diagnosis').value;
+    
+    if (!patientName || !diagnosisInput) {
+        alert('Please enter patient name and diagnosis');
+        return;
+    }
+    
+    // Find the matching disease (case-insensitive)
+    const matchedDisease = findMatchingDisease(diagnosisInput);
+    
+    if (!matchedDisease) {
+        alert('No matching disease found. Please try a different description.');
+        return;
+    }
+    
+    // Show diagnosis result
+    resultName.textContent = patientName;
+    resultDisease.textContent = matchedDisease;
+    diagnosisResult.classList.add('show');
+    
+    // Show recommended medicines
+    showRecommendedMedicines(matchedDisease);
+}

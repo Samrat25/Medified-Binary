@@ -43,7 +43,7 @@ ul {
 }
 
 .section-title {
-    text-align: center;
+    /* text-align: center; */
     margin-bottom: 40px;
     font-size: 2.5rem;
     color: var(--dark-color);
@@ -91,6 +91,7 @@ header {
     background: #00C9FF;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #92FE9D, #00C9FF);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #92FE9D, #00C9FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    box-shadow: 5px 0px 5px rgb(103, 103, 103);
 }
 
 header .container {
@@ -114,6 +115,8 @@ header .container {
 
 nav ul {
     display: flex;
+    padding:15px 0;
+    align-items: center;
 }
 
 nav ul li {
@@ -349,11 +352,10 @@ nav ul li a:hover, nav ul li a.active {
 /* Diagnosis and Prediction Page Styles */
 .tool-container {
     max-width: 1000px;
-    margin: 100px auto;
+    margin: 120px auto;
     padding: 30px;
-    
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow:0 20px 50px rgba(0, 0, 0, 0.1);
 }
 
 .tool-header {
