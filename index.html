@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedConnect - Medical Appointment System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1><i class="fas fa-heartbeat"></i> MedConnect</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#login-section" class="btn-primary">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Healthcare Made Simple</h1>
+                <p>Connecting patients with doctors for better healthcare experience</p>
+                <div class="hero-buttons">
+                    <a href="#login-section" class="btn-primary">Get Started</a>
+                    <a href="#features" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="assets/img/hero-image.png" alt="Healthcare Illustration" onerror="this.src='https://via.placeholder.com/500x400?text=Healthcare+Illustration'">
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose MedConnect?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3>Expert Doctors</h3>
+                    <p>Connect with experienced healthcare professionals who care about your wellbeing.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Easy Appointments</h3>
+                    <p>Book appointments with just a few clicks, anytime and anywhere.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Save Time</h3>
+                    <p>No more waiting in queues. Manage your healthcare efficiently.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Secure & Private</h3>
+                    <p>Your health information is always secure and confidential with us.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <h2 class="section-title">About MedConnect</h2>
+                <p>MedConnect is a revolutionary platform designed to bridge the gap between patients and healthcare providers. Our mission is to make healthcare accessible, convenient, and efficient for everyone.</p>
+                <p>With MedConnect, patients can easily find and book appointments with their preferred doctors, while doctors can efficiently manage their schedules and patient records.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="login-section" class="auth-section">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login">Login</button>
+                    <button class="auth-tab" data-tab="register">Register</button>
+                </div>
+                
+                <!-- Login Form -->
+                <div id="login" class="auth-form active">
+                    <h2>Welcome Back</h2>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Login as:</label>
+                            <div class="user-type-selection">
+                                <div class="user-type-option" data-type="patient">
+                                    <input type="radio" name="loginUserType" id="loginPatientType" value="patient" checked>
+                                    <label for="loginPatientType" class="user-type-card">
+                                        <div class="user-type-icon"><i class="fas fa-user"></i></div>
+                                        <h3>Patient</h3>
+                                        <p>Access your appointments</p>
+                                    </label>
+                                </div>
+                                <div class="user-type-option" data-type="doctor">
+                                    <input type="radio" name="loginUserType" id="loginDoctorType" value="doctor">
+                                    <label for="loginDoctorType" class="user-type-card">
+                                        <div class="user-type-icon"><i class="fas fa-user-md"></i></div>
+                                        <h3>Doctor</h3>
+                                        <p>Manage your patients</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn-primary">Login</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Register Form -->
+                <div id="register" class="auth-form">
+                    <h2>Create Account</h2>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="registerName">Full Name</label>
+                            <input type="text" id="registerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail">Email</label>
+                            <input type="email" id="registerEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">Password</label>
+                            <input type="password" id="registerPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" id="confirmPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Register as:</label>
+                            <div class="user-type-selection">
+                                <div class="user-type-option" data-type="patient">
+                                    <input type="radio" name="userType" id="patientType" value="patient" checked>
+                                    <label for="patientType" class="user-type-card">
+                                        <div class="user-type-icon"><i class="fas fa-user"></i></div>
+                                        <h3>Patient</h3>
+                                        <p>Find doctors and book appointments</p>
+                                    </label>
+                                </div>
+                                <div class="user-type-option" data-type="doctor">
+                                    <input type="radio" name="userType" id="doctorType" value="doctor">
+                                    <label for="doctorType" class="user-type-card">
+                                        <div class="user-type-icon"><i class="fas fa-user-md"></i></div>
+                                        <h3>Doctor</h3>
+                                        <p>Manage patients and appointments</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Doctor-specific fields (hidden by default) -->
+                        <div id="doctorFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="experience">Years of Experience</label>
+                                <input type="number" id="experience" min="0" max="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="license">License Number</label>
+                                <input type="text" id="license">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn-primary">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2><i class="fas fa-heartbeat"></i> MedConnect</h2>
+                    <p>Healthcare Made Simple</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#login-section">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-envelope"></i> info@medconnect.com</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MedConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>
