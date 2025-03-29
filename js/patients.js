@@ -386,24 +386,7 @@ function viewPatientDetails(patientId) {
             };
         }
         
-        const videoCallBtn = document.getElementById('startPatientVideoCallBtn');
-        if (videoCallBtn) {
-            // Check if there's an upcoming video call appointment
-            const videoAppointment = appointments.find(a => 
-                a.status === 'Upcoming' && a.type === 'video-call' && 
-                new Date(a.date) >= new Date().setHours(0, 0, 0, 0)
-            );
-            
-            if (videoAppointment) {
-                videoCallBtn.style.display = 'inline-block';
-                videoCallBtn.onclick = function() {
-                    startVideoCall(videoAppointment.id);
-                    closeModal();
-                };
-            } else {
-                videoCallBtn.style.display = 'none';
-            }
-        }
+        
         
         // Set up close button
         const closeBtn = modal.querySelector('.modal-close');
@@ -434,10 +417,4 @@ function scheduleAppointment(patientId) {
     // In a real implementation, you would show a form to schedule a new appointment
 }
 
-function startVideoCall(appointmentId) {
-    // Save appointment ID to session storage for use in video call page
-    sessionStorage.setItem('activeCallAppointmentId', appointmentId);
-    
-    // Redirect to video call page
-    window.location.href = 'video-call.html';
-}
+

@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (videoCallLink) {
             videoCallLink.addEventListener('click', function() {
-                window.location.href = 'video-call.html';
+                window.location.href = 'WEB_UIKITS.html';
             });
         }
     } else if (currentUser.userType === 'doctor') {
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (videoCallLink) {
             videoCallLink.addEventListener('click', function() {
-                window.location.href = 'video-call.html';
+                window.location.href = 'WEB_UIKITS.html';
             });
         }
     }
