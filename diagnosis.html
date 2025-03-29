@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnosis Recommendations | MedConnect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/diagnosis.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1><i class="fas fa-heartbeat"></i> MedConnect</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="diagnosis.html" class="active">Diagnosis</a></li>
+                    <li><a href="disease-prediction.html">Disease Prediction</a></li>
+                    <li><a href="index.html#login-section" class="btn-primary">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="tool-container">
+        <div class="tool-header">
+            <h1>Symptom-Based Diagnosis Recommendations</h1>
+            <p>Describe your symptoms to get AI-powered diagnosis recommendations. This tool is for informational purposes only and should not replace professional medical advice.</p>
+        </div>
+        <div class="main-content">
+            <div class="diagnosis-section">
+                <div class="card">
+                    <h2 class="card-title">
+                        <span><i class="fas fa-stethoscope"></i> Doctor's Diagnosis</span>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label for="patientName">Patient Name</label>
+                        <input type="text" id="patientName" placeholder="Enter patient's full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="patientAge">Patient Age</label>
+                        <input type="number" id="patientAge" placeholder="Enter patient's age">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="patientGender">Patient Gender</label>
+                        <select id="patientGender">
+                            <option value="">Select gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="symptoms">Symptoms</label>
+                        <textarea id="symptoms" placeholder="Describe the patient's symptoms"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="diagnosis">Diagnosis</label>
+                        <input type="text" id="diagnosis" placeholder="Enter the diagnosed disease">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prescription">Prescription Notes</label>
+                        <textarea id="prescription" placeholder="Add any prescription notes or recommendations"></textarea>
+                    </div>
+                    
+                    <button class="btn btn-block" id="submitDiagnosis">
+                        <i class="fas fa-check-circle"></i> Submit Diagnosis
+                    </button>
+                    
+                    <div class="diagnosis-result" id="diagnosisResult">
+                        <div class="diagnosis-title">Diagnosis Result</div>
+                        <p>Patient <strong id="resultName"></strong> has been diagnosed with <strong id="resultDisease"></strong>.</p>
+                        <p>Recommended medicines have been added to your cart.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pharmacy-section">
+                <div class="card">
+                    <h2 class="card-title">
+                        <span><i class="fas fa-prescription-bottle-alt"></i> Recommended Medicines</span>
+                    </h2>
+                    
+                    <div class="medicine-list" id="recommendedMeds">
+                        <!-- Recommended medicines will be added here by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="card cart-summary">
+                    <h2 class="card-title">
+                        <span><i class="fas fa-shopping-cart"></i> Your Cart</span>
+                        <span id="cartCount">0</span>
+                    </h2>
+                    
+                    <div class="cart-items" id="cartItems">
+                        <!-- Cart items will be added here by JavaScript -->
+                        <p class="empty-cart-message">Your cart is empty</p>
+                    </div>
+                    
+                    <div class="cart-total">
+                        <span>Total:</span>
+                        <span id="cartTotal">₹0.00</span>
+                    </div>
+                    
+                    <button class="btn btn-success btn-block" id="checkoutBtn" disabled>
+                        <i class="fas fa-credit-card"></i> Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3><i class="fas fa-heartbeat"></i> MedConnect</h3>
+                    <p>Connecting patients with doctors for better healthcare experience</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#login-section">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-envelope"></i> info@medconnect.com</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MedConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/diagnosis.js"></script>
+</body>
+</html>

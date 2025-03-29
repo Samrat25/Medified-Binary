@@ -6,6 +6,9 @@
     <title>MedConnect - Medical Appointment System</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -18,6 +21,8 @@
                     <li><a href="#home" class="active">Home</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#about">About</a></li>
+                    <li><a href="diagnosis.html">Diagnosis</a></li>
+                    <li><a href="disease-prediction.html">Disease Prediction</a></li>
                     <li><a href="#login-section" class="btn-primary">Login</a></li>
                 </ul>
             </nav>
@@ -79,9 +84,53 @@
     <section id="about" class="about">
         <div class="container">
             <div class="about-content">
-                <h2 class="section-title">About MedConnect</h2>
-                <p>MedConnect is a revolutionary platform designed to bridge the gap between patients and healthcare providers. Our mission is to make healthcare accessible, convenient, and efficient for everyone.</p>
-                <p>With MedConnect, patients can easily find and book appointments with their preferred doctors, while doctors can efficiently manage their schedules and patient records.</p>
+                <div class="about-text">
+                    <h2>About MedConnect</h2>
+                    <p>MedConnect is a modern healthcare platform designed to bridge the gap between patients and healthcare providers. We aim to make healthcare more accessible, efficient, and personalized for everyone.</p>
+                    <p>Our team of experienced healthcare professionals and tech experts work together to provide a seamless experience for both patients and doctors.</p>
+                    <a href="#login-section" class="btn-primary">Join Us Today</a>
+                </div>
+                <div class="about-image">
+                    <img src="assets/img/about-image.png" alt="About MedConnect" onerror="this.src='https://via.placeholder.com/500x400?text=About+MedConnect'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="diagnosis" class="diagnosis-section">
+        <div class="container">
+            <h2 class="section-title">Get Diagnosis Recommendations</h2>
+            <div class="diagnosis-content">
+                <div class="diagnosis-text">
+                    <p>Feeling unwell but not sure what's wrong? Our AI-powered diagnosis recommendation system can help you understand your symptoms and suggest possible conditions.</p>
+                    <p>Simply describe your symptoms, and our system will analyze them to provide you with potential diagnoses and next steps.</p>
+                    <div class="diagnosis-actions">
+                        <a href="diagnosis.html" class="btn-primary">Get Started</a>
+                        <a href="#features" class="btn-secondary">Learn More</a>
+                    </div>
+                </div>
+                <div class="diagnosis-image">
+                    <img src="assets/img/diagnosis-image.png" alt="Diagnosis Recommendation" onerror="this.src='https://via.placeholder.com/500x400?text=Diagnosis+Recommendation'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="prediction" class="prediction-section">
+        <div class="container">
+            <h2 class="section-title">Disease Prediction</h2>
+            <div class="prediction-content">
+                <div class="prediction-image">
+                    <img src="assets/img/prediction-image.png" alt="Disease Prediction" onerror="this.src='https://via.placeholder.com/500x400?text=Disease+Prediction'">
+                </div>
+                <div class="prediction-text">
+                    <p>Prevention is better than cure. Our disease prediction tool helps you assess your risk for various common diseases based on your health parameters and lifestyle factors.</p>
+                    <p>Enter your health information, and our prediction model will evaluate your risk levels and provide personalized prevention recommendations.</p>
+                    <div class="prediction-actions">
+                        <a href="disease-prediction.html" class="btn-primary">Check Your Risk</a>
+                        <a href="#features" class="btn-secondary">How It Works</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

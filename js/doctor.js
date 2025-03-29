@@ -494,30 +494,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         renderPatients(patients);
     }
-    
-    // Video Call Functions
-    function startNewVideoCall() {
-        const callId = videoCallIdDisplay ? videoCallIdDisplay.textContent : `DR-${Math.floor(Math.random() * 10000) + 1}`;
-        window.open(`WEB_UIKITS.html?roomID=${callId}`, '_blank');
-    }
-    
-    function joinExistingVideoCall() {
-        const callId = prompt("Enter the call ID to join:");
-        if (callId) {
-            window.open(`WEB_UIKITS.html?roomID=${callId}`, '_blank');
-        }
-    }
-    
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text)
-            .then(() => {
-                alert("Call ID copied to clipboard!");
-            })
-            .catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-    }
-});
 
 // Global functions (accessible from HTML)
 function viewAppointmentDetails(appointmentId) {
@@ -916,7 +892,7 @@ function scheduleAppointment(patientId) {
     alert(`Scheduling functionality for patient ${patientId} not implemented yet.`);
 }
 
-function startVideoCallWithPatient(patientId) {
-    const callId = `CALL-${patientId}-${Math.floor(Math.random() * 1000)}`;
-    window.open(`WEB_UIKITS.html?roomID=${callId}`, '_blank');
-}
+//function startVideoCallWithPatient(patientId) {
+   // const callId = `CALL-${patientId}-${Math.floor(Math.random() * 1000)}`;
+   // window.open(`WEB_UIKITS.html?roomID=${callId}`, '_blank');
+//}
