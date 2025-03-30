@@ -428,7 +428,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDashboardCounts();
         
         alert('Appointment booked successfully!');
-        window.location.href = 'patient-dashboard.html';
     }
     
     // Notification Functions
