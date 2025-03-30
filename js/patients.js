@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check if user is logged in
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     
-    if (!currentUser || currentUser.userType !== 'doctor') {
+    if (!currentUser || currentUser.userType !== 'patient') {
         // Redirect to login if not logged in or not a doctor
         window.location.href = 'index.html';
         return;

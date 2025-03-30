@@ -36,6 +36,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const videoCallIdDisplay = document.getElementById('videoCallId');
     const copyCallIdBtn = document.getElementById('copyCallId');
     
+    // Notification elements
+    const notificationBtn = document.getElementById('notificationBtn');
+    const notificationBadge = document.getElementById('notificationBadge');
+    const notificationDropdown = document.getElementById('notificationDropdown');
+    const notificationContent = document.getElementById('notificationContent');
+    
     // Initialize page
     initializePage();
     
@@ -97,6 +103,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Notification button event listener
+    if (notificationBtn) {
+        notificationBtn.addEventListener('click', toggleNotificationDropdown);
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!notificationBtn.contains(event.target) && !notificationDropdown.contains(event.target)) {
+                notificationDropdown.classList.remove('show');
+            }
+        });
+    }
+    
     // Functions
     function initializePage() {
         // Set user name and initials
@@ -125,6 +143,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update dashboard counts
         updateDashboardCounts();
+        
+        // Load notifications
+        loadNotifications();
         
         // Generate video call ID if not already set
         if (videoCallIdDisplay && !videoCallIdDisplay.textContent) {
@@ -494,6 +515,108 @@ document.addEventListener('DOMContentLoaded', function() {
         
         renderPatients(patients);
     }
+    
+    // Video Call Functions
+    function startNewVideoCall() {
+        const callId = videoCallIdDisplay ? videoCallIdDisplay.textContent : `DR-${Math.floor(Math.random() * 10000) + 1}`;
+        window.open(`WEB_UIKITS.html?roomID=${callId}`, '_blank');
+    }
+    
+    function joinExistingVideoCall() {
+        const callId = prompt("Enter the call ID to join:");
+        if (callId) {
+            window.open(`WEB_UIKITS.html?roomID=${callId}`, '_blank');
+        }
+    }
+    
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                alert("Call ID copied to clipboard!");
+            })
+            .catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+    }
+    
+    // Notification Functions
+    function toggleNotificationDropdown() {
+        notificationDropdown.classList.toggle('show');
+    }
+    
+    function loadNotifications() {
+        if (!notificationContent || !notificationBadge) return;
+        
+        // Get current user's appointments
+        const appointments = currentUser.appointments || [];
+        
+        // Filter upcoming appointments for notifications
+        const upcomingAppointments = appointments.filter(appointment => 
+            appointment.status === 'Upcoming'
+        );
+        
+        // Sort by date (most recent first)
+        upcomingAppointments.sort((a, b) => new Date(a.date) - new Date(b.date));
+        
+        // Update notification badge count
+        const notificationCount = upcomingAppointments.length;
+        notificationBadge.textContent = notificationCount;
+        
+        // Show/hide badge based on count
+        if (notificationCount === 0) {
+            notificationBadge.style.display = 'none';
+        } else {
+            notificationBadge.style.display = 'flex';
+        }
+        
+        // Generate notification items HTML
+        if (upcomingAppointments.length === 0) {
+            notificationContent.innerHTML = '<div class="notification-empty">No notifications</div>';
+            return;
+        }
+        
+        let notificationsHTML = '';
+        
+        upcomingAppointments.forEach(appointment => {
+            const appointmentDate = new Date(appointment.date);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const isToday = appointmentDate.getTime() === today.getTime();
+            const isTomorrow = appointmentDate.getTime() === today.getTime() + 86400000;
+            
+            let dateLabel = formatDate(appointment.date);
+            if (isToday) dateLabel = 'Today';
+            if (isTomorrow) dateLabel = 'Tomorrow';
+            
+            // Get patient information
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const patient = users.find(user => user.id === appointment.patientId) || { name: 'Unknown Patient' };
+            
+            // Check if appointment is accepted
+            const acceptedClass = appointment.accepted ? 'accepted' : '';
+            const acceptButtonDisplay = appointment.accepted ? 'none' : 'block';
+            
+            notificationsHTML += `
+            <div class="notification-item ${acceptedClass}">
+                <div class="notification-content" onclick="viewAppointmentDetails('${appointment.id}')">
+                    <div class="notification-title">Appointment with ${patient.name}</div>
+                    <div class="notification-message">${dateLabel} at ${appointment.time}</div>
+                    <div class="notification-time">${appointment.type}</div>
+                </div>
+                <div class="notification-actions">
+                    <button class="accept-btn" style="display: ${acceptButtonDisplay}" onclick="acceptAppointment('${appointment.id}')">
+                        <i class="fas fa-check"></i> Accept
+                    </button>
+                    ${appointment.accepted ? '<span class="accepted-badge"><i class="fas fa-check-circle"></i> Accepted</span>' : ''}
+                </div>
+            </div>
+            `;
+        });
+        
+        notificationContent.innerHTML = notificationsHTML;
+    }
+});
 
 // Global functions (accessible from HTML)
 function viewAppointmentDetails(appointmentId) {
@@ -608,220 +731,115 @@ function cancelAppointment(appointmentId) {
 }
 
 function updateAppointmentStatus(appointmentId, newStatus) {
+    // Get current user
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    
-    if (!currentUser) return;
-    
-    // Find appointment
-    const appointmentIndex = currentUser.appointments.findIndex(a => a.id === appointmentId);
-    
-    if (appointmentIndex === -1) {
-        alert('Appointment not found');
+    if (!currentUser) {
+        console.error('No user logged in');
         return;
     }
     
-    const appointment = currentUser.appointments[appointmentIndex];
+    // Find appointment in doctor's list
+    const appointments = currentUser.appointments || [];
+    const appointmentIndex = appointments.findIndex(appt => appt.id === appointmentId);
     
-    // Update status
+    if (appointmentIndex === -1) {
+        console.error('Appointment not found');
+        return;
+    }
+    
+    const appointment = appointments[appointmentIndex];
+    
+    // Update appointment status in doctor's list
     appointment.status = newStatus;
     
-    // Update in current user
-    currentUser.appointments[appointmentIndex] = appointment;
+    // Add accepted property if status is 'Accepted'
+    if (newStatus === 'Accepted') {
+        appointment.accepted = true;
+    }
+    
+    appointments[appointmentIndex] = appointment;
+    currentUser.appointments = appointments;
+    
+    // Update in localStorage
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
     
-    // Update in users array
+    // Also update the appointment in the patient's record
     const users = JSON.parse(localStorage.getItem('users')) || [];
-    const doctorIndex = users.findIndex(u => u.id === currentUser.id);
+    const patientId = appointment.patientId;
     
-    if (doctorIndex !== -1) {
-        users[doctorIndex] = currentUser;
-        localStorage.setItem('users', JSON.stringify(users));
+    if (!patientId) {
+        console.error('Patient ID not found');
+        return;
     }
     
-    // Update in doctors array
-    const doctors = JSON.parse(localStorage.getItem('doctors')) || [];
-    const doctorArrayIndex = doctors.findIndex(d => d.id === currentUser.id);
+    const patientIndex = users.findIndex(user => user.id === patientId);
     
-    if (doctorArrayIndex !== -1) {
-        doctors[doctorArrayIndex] = currentUser;
-        localStorage.setItem('doctors', JSON.stringify(doctors));
+    if (patientIndex === -1) {
+        console.error('Patient not found');
+        return;
     }
     
-    // Update in patient's appointments
-    const patientUser = users.find(u => u.id === appointment.patientId);
+    const patient = users[patientIndex];
+    const patientAppointments = patient.appointments || [];
+    const patientAppointmentIndex = patientAppointments.findIndex(appt => appt.id === appointmentId);
     
-    if (patientUser) {
-        const patientAppointmentIndex = patientUser.appointments.findIndex(a => a.id === appointmentId);
+    if (patientAppointmentIndex === -1) {
+        console.error('Appointment not found in patient record');
+        return;
+    }
+    
+    // Update appointment status in patient's list
+    patientAppointments[patientAppointmentIndex].status = newStatus;
+    
+    // Add accepted property if status is 'Accepted'
+    if (newStatus === 'Accepted') {
+        patientAppointments[patientAppointmentIndex].accepted = true;
+    }
+    
+    patient.appointments = patientAppointments;
+    users[patientIndex] = patient;
+    
+    // Update users in localStorage
+    localStorage.setItem('users', JSON.stringify(users));
+    
+    // Update doctors list if current user is a doctor
+    if (currentUser.userType === 'doctor') {
+        const doctors = JSON.parse(localStorage.getItem('doctors')) || [];
+        const doctorIndex = doctors.findIndex(doc => doc.id === currentUser.id);
         
-        if (patientAppointmentIndex !== -1) {
-            patientUser.appointments[patientAppointmentIndex] = appointment;
+        if (doctorIndex !== -1) {
+            doctors[doctorIndex] = {
+                ...doctors[doctorIndex],
+                appointments: appointments
+            };
             
-            // Update patient in users array
-            const patientIndex = users.findIndex(u => u.id === patientUser.id);
-            
-            if (patientIndex !== -1) {
-                users[patientIndex] = patientUser;
-                localStorage.setItem('users', JSON.stringify(users));
-            }
+            localStorage.setItem('doctors', JSON.stringify(doctors));
         }
+    }
+    
+    // Reload appointments or refresh UI based on new status
+    if (newStatus === 'Completed') {
+        alert('Appointment marked as completed successfully!');
+    } else if (newStatus === 'Cancelled') {
+        alert('Appointment cancelled successfully!');
+    } else if (newStatus === 'Accepted') {
+        alert('Appointment accepted successfully!');
     }
     
     // Reload appointments
-    const appointmentCardsContainer = document.getElementById('appointmentCards');
-    if (appointmentCardsContainer) {
-        // Get active filter
-        const activeFilter = document.querySelector('.filter-btn.active');
-        let statusFilter = 'all';
-        
-        if (activeFilter) {
-            statusFilter = activeFilter.dataset.filter;
-            
-            if (statusFilter === 'upcoming') {
-                statusFilter = 'Upcoming';
-            } else if (statusFilter === 'completed') {
-                statusFilter = 'Completed';
-            } else if (statusFilter === 'cancelled') {
-                statusFilter = 'Cancelled';
-            }
-        }
-        
-        // Get current user's appointments
-        const appointments = currentUser.appointments || [];
-        
-        if (appointments.length === 0) {
-            appointmentCardsContainer.innerHTML = '<div class="no-data">No appointments scheduled.</div>';
-            return;
-        }
-        
-        // Filter by status if needed
-        let filteredAppointments = appointments;
-        if (statusFilter !== 'all') {
-            filteredAppointments = appointments.filter(a => a.status === statusFilter);
-        }
-        
-        if (filteredAppointments.length === 0) {
-            appointmentCardsContainer.innerHTML = '<div class="no-data">No appointments found with this status.</div>';
-            return;
-        }
-        
-        // Sort appointments
-        if (statusFilter === 'Upcoming') {
-            filteredAppointments.sort((a, b) => new Date(a.date) - new Date(b.date));
-        } else {
-            filteredAppointments.sort((a, b) => new Date(b.date) - new Date(a.date));
-        }
-        
-        let appointmentHTML = '';
-        
-        filteredAppointments.forEach(appointment => {
-            const statusClass = getStatusClass(appointment.status);
-            const appointmentDate = new Date(appointment.date);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            const isToday = appointmentDate.getTime() === today.getTime();
-            const isTomorrow = appointmentDate.getTime() === today.getTime() + 86400000;
-            const isPast = appointmentDate < today;
-            
-            let dateLabel = formatDate(appointment.date);
-            if (isToday) dateLabel = 'Today';
-            if (isTomorrow) dateLabel = 'Tomorrow';
-            
-            // Set appropriate icon based on appointment status
-            let statusIcon = 'fa-calendar-check';
-            if (appointment.status === 'Completed') statusIcon = 'fa-check-circle';
-            if (appointment.status === 'Cancelled') statusIcon = 'fa-times-circle';
-            
-            // Create priority label for appointments
-            let priorityLabel = '';
-            let priorityClass = '';
-            
-            if (isToday && appointment.status === 'Upcoming') {
-                priorityLabel = 'Today';
-                priorityClass = 'priority-high';
-            } else if (isTomorrow && appointment.status === 'Upcoming') {
-                priorityLabel = 'Tomorrow';
-                priorityClass = 'priority-medium';
-            } else if (!isPast && appointment.status === 'Upcoming') {
-                priorityLabel = 'Upcoming';
-                priorityClass = 'priority-low';
-            }
-            
-            appointmentHTML += `
-            <div class="appointment-card ${statusClass.replace('status-', '')}">
-                <div class="appointment-card-header">
-                    <div class="appointment-status">
-                        <i class="fas ${statusIcon}"></i>
-                        <span class="status-badge ${statusClass}">${appointment.status}</span>
-                    </div>
-                    ${priorityLabel ? `<div class="priority-badge ${priorityClass}">${priorityLabel}</div>` : ''}
-                </div>
-                <div class="appointment-card-body">
-                    <div class="appointment-doctor">
-                        <div class="doctor-avatar">${getInitials(appointment.patientName)}</div>
-                        <div class="doctor-info">
-                            <h3>${appointment.patientName}</h3>
-                            <p>Patient ID: ${appointment.patientId}</p>
-                        </div>
-                    </div>
-                    <div class="appointment-details">
-                        <div class="appointment-detail">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>${dateLabel}</span>
-                        </div>
-                        <div class="appointment-detail">
-                            <i class="fas fa-clock"></i>
-                            <span>${appointment.time}</span>
-                        </div>
-                        <div class="appointment-detail">
-                            <i class="fas fa-stethoscope"></i>
-                            <span>${appointment.reason || 'General Consultation'}</span>
-                        </div>
-                        <div class="appointment-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>In-Person Visit</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="appointment-card-footer">
-                    <button class="btn-secondary" onclick="viewAppointmentDetails('${appointment.id}')">
-                        <i class="fas fa-eye"></i> View Details
-                    </button>
-                    ${appointment.status === 'Upcoming' ? 
-                    `<button class="btn-success" onclick="completeAppointment('${appointment.id}')">
-                        <i class="fas fa-check"></i> Complete
-                    </button>
-                    <button class="btn-danger" onclick="cancelAppointment('${appointment.id}')">
-                        <i class="fas fa-times"></i> Cancel
-                    </button>` : ''}
-                </div>
-            </div>
-            `;
-        });
-        
-        appointmentCardsContainer.innerHTML = appointmentHTML;
-    }
+    loadAppointments();
+    
+    // Reload notifications
+    loadNotifications();
     
     // Update dashboard counts
-    const appointmentCountElement = document.getElementById('appointmentCount');
-    const upcomingCountElement = document.getElementById('upcomingCount');
-    const patientsCountElement = document.getElementById('patientsCount');
+    updateDashboardCounts();
     
-    if (appointmentCountElement) {
-        appointmentCountElement.textContent = currentUser.appointments.length;
+    // Close modal if it's open
+    const modal = document.getElementById('appointmentDetailModal');
+    if (modal && modal.style.display === 'block') {
+        closeModal();
     }
-    
-    if (upcomingCountElement) {
-        const upcomingCount = currentUser.appointments.filter(a => a.status === 'Upcoming').length;
-        upcomingCountElement.textContent = upcomingCount;
-    }
-    
-    if (patientsCountElement) {
-        const uniquePatients = [...new Set(currentUser.appointments.map(a => a.patientId))].length;
-        patientsCountElement.textContent = uniquePatients;
-    }
-    
-    alert(`Appointment ${newStatus.toLowerCase()} successfully`);
 }
 
 function viewPatientDetails(patientId) {
@@ -892,7 +910,15 @@ function scheduleAppointment(patientId) {
     alert(`Scheduling functionality for patient ${patientId} not implemented yet.`);
 }
 
-// function startVideoCallWithPatient(patientId) {
-//    const callId = `CALL-${patientId}-${Math.floor(Math.random() * 1000)}`;
-//    window.open(`WEB_UIKITS.html?roomID=${callId}`, '_blank');
-// }
+function startVideoCallWithPatient(patientId) {
+    const callId = `CALL-${patientId}-${Math.floor(Math.random() * 1000)}`;
+    window.open(`WEB_UIKITS.html?roomID=${callId}`, '_blank');
+}
+
+function acceptAppointment(appointmentId) {
+    if (!confirm('Accept this appointment?')) {
+        return;
+    }
+    
+    updateAppointmentStatus(appointmentId, 'Accepted');
+}

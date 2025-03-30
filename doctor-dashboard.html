@@ -13,11 +13,11 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h2><i class="fas fa-heartbeat"></i> <span>MEDIFIED AI</span></h2>
+                <h2><i class="fas fa-heartbeat"></i> <span>MedConnect</span></h2>
             </div>
             <div class="user-info">
-                <div class="avatar user-initials">NJ</div>
-                <h3 class="user-name">Dr. Nilarpan Jana</h3>
+                <div class="avatar user-initials">DS</div>
+                <h3 class="user-name">Dr. Smith</h3>
                 <p class="user-specialization">Cardiologist</p>
             </div>
             <nav class="sidebar-menu">
@@ -34,9 +34,8 @@
                     <span>Patients</span>
                 </div>
                 <div class="menu-item" id="video-call-link">
-                    <a href="WEB_UIKITS.html">
                     <i class="fas fa-video"></i>
-                    <span>Video Calls</span></a>
+                    <span>Video Calls</span>
                 </div>
                 <div class="menu-item" id="profile-link">
                     <i class="fas fa-user"></i>
@@ -61,10 +60,19 @@
                     <i class="fas fa-search"></i>
                 </div>
                 <div class="top-bar-actions">
-                    <button class="notification-btn">
+                    <button class="notification-btn" id="notificationBtn">
                         <i class="fas fa-bell"></i>
-                        <span class="notification-badge">2</span>
+                        <span class="notification-badge" id="notificationBadge">2</span>
                     </button>
+                    <!-- Notification Dropdown -->
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="notification-header">
+                            <h3>Notifications</h3>
+                        </div>
+                        <div class="notification-content" id="notificationContent">
+                            <!-- Notifications will be loaded here by JavaScript -->
+                        </div>
+                    </div>
                     <div class="user-dropdown">
                         <div class="avatar user-initials">DS</div>
                         <span class="user-name">Dr. Smith</span>
@@ -180,9 +188,7 @@
                     
                     <div class="video-call-actions">
                         <button class="btn-primary" id="startVideoCall">
-                            <a href="WEB_UIKITS.html">
                             <i class="fas fa-video"></i> Start New Call
-                        </a>
                         </button>
                         <button class="btn-secondary" id="joinVideoCall">
                             <i class="fas fa-sign-in-alt"></i> Join Existing Call
