@@ -670,3 +670,7 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+.filter-group{
+    margin: 20px;
+}

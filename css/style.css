@@ -67,6 +67,8 @@ ul {
 .btn-primary:hover {
     background-color: #000000;
     transform: translateY(-2px);
+    
+    
 }
 
 .btn-secondary {
@@ -89,8 +91,8 @@ header {
     right: 0;
     z-index: 100;
     background: #00C9FF;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right,#CAF0F8,#ADE8F4,#48CAE4,#00B4D8,#0096C7,#0077B6,#023E8A);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #CAF0F8,#ADE8F4,#48CAE4,#00B4D8,#0096C7,#0077B6,#023E8A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: -webkit-linear-gradient(to right,#91E5F6,#84D2F6,#59A5D8,#386FA4,#133C55);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #91E5F6,#84D2F6,#59A5D8,#386FA4,#133C55); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     box-shadow: 5px 0px 5px rgb(103, 103, 103);
 }
 
@@ -129,8 +131,9 @@ nav ul li a {
 }
 
 nav ul li a:hover, nav ul li a.active {
-    color: blueviolet;
-    text-decoration: bold;
+    color: rgb(47, 5, 86);
+    text-shadow: -.25px -.25px 0 black, 
+                .25px .25px black;
 }
 
 /* Hero Section */
