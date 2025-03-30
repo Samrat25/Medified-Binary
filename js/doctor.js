@@ -330,100 +330,84 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadPatients() {
         if (!patientCardsContainer) return;
         
-        // Get all appointments to extract unique patients
-        const appointments = currentUser.appointments || [];
+        // Get all users from localStorage
+        const users = JSON.parse(localStorage.getItem('users')) || [];
         
-        // Create a map to store unique patients
-        const patientsMap = new Map();
+        // Filter patients
+        const patients = users.filter(user => user.userType === 'patient');
         
-        appointments.forEach(appointment => {
-            if (!patientsMap.has(appointment.patientId)) {
-                patientsMap.set(appointment.patientId, {
-                    id: appointment.patientId,
-                    name: appointment.patientName,
-                    lastVisit: appointment.date,
-                    appointments: []
-                });
-            }
-            
-            // Add appointment to patient's record
-            const patient = patientsMap.get(appointment.patientId);
-            patient.appointments.push({
-                id: appointment.id,
-                date: appointment.date,
-                time: appointment.time,
-                reason: appointment.reason,
-                status: appointment.status
-            });
-            
-            // Update last visit if newer
-            if (new Date(appointment.date) > new Date(patient.lastVisit)) {
-                patient.lastVisit = appointment.date;
-            }
+        if (patients.length === 0) {
+            patientCardsContainer.innerHTML = '<div class="no-data">No patients registered in the system.</div>';
+            return;
+        }
+        
+        // Get doctor's appointments
+        const doctorAppointments = currentUser.appointments || [];
+        
+        // Get unique patient IDs from appointments
+        const doctorPatientIds = new Set();
+        doctorAppointments.forEach(appointment => {
+            doctorPatientIds.add(appointment.patientId);
         });
         
-        // Convert map to array
-        const patients = Array.from(patientsMap.values());
+        // Mark patients as having appointments with this doctor
+        patients.forEach(patient => {
+            patient.hasAppointment = doctorPatientIds.has(patient.id);
+        });
         
-        // Sort by name
-        patients.sort((a, b) => a.name.localeCompare(b.name));
-        
+        // Render patients
         renderPatients(patients);
     }
     
     function renderPatients(patients) {
-        if (!patientCardsContainer) return;
-        
         if (patients.length === 0) {
             patientCardsContainer.innerHTML = '<div class="no-data">No patients found.</div>';
             return;
         }
         
-        let patientsHTML = '';
+        let patientHTML = '';
         
         patients.forEach(patient => {
-            // Count upcoming appointments
-            const upcomingAppointments = patient.appointments.filter(a => a.status === 'Upcoming').length;
+            // Determine status class and label
+            let statusClass = patient.hasAppointment ? 'active-patient' : 'new-patient';
+            let statusLabel = patient.hasAppointment ? 'Active Patient' : 'New Patient';
             
-            // Format last visit date
-            const lastVisitDate = formatDate(patient.lastVisit);
-            
-            patientsHTML += `
-            <div class="patient-card">
-                <div class="patient-card-header">
-                    <div class="patient-avatar">${getInitials(patient.name)}</div>
+            // Create patient card HTML
+            patientHTML += `
+            <div class="patient-card ${statusClass}">
+                <div class="patient-header">
+                    <div class="patient-avatar">${getInitials(patient.name || 'Unknown Patient')}</div>
                     <div class="patient-info">
-                        <h3>${patient.name}</h3>
-                        <p>Patient ID: ${patient.id}</p>
+                        <h3>${patient.name || 'Unknown Patient'}</h3>
+                        <p>${patient.email || ''}</p>
+                        <span class="patient-status ${statusClass}">${statusLabel}</span>
                     </div>
                 </div>
-                <div class="patient-card-body">
-                    <div class="patient-detail">
-                        <i class="fas fa-calendar-check"></i>
-                        <span>Total Visits: ${patient.appointments.length}</span>
+                <div class="patient-details">
+                    <div class="patient-meta">
+                        <div class="patient-meta-item">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments: ${patient.appointments ? patient.appointments.length : 0}</span>
+                        </div>
+                        <div class="patient-meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Last Visit: ${patient.lastVisit ? formatDate(patient.lastVisit) : 'N/A'}</span>
+                        </div>
                     </div>
-                    <div class="patient-detail">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Upcoming: ${upcomingAppointments}</span>
+                    <div class="patient-actions">
+                        <button class="view-patient-btn" onclick="viewPatientDetails('${patient.id}')">
+                            <i class="fas fa-eye"></i> View Details
+                        </button>
+                        <button class="schedule-btn" onclick="scheduleAppointment('${patient.id}')">
+                            <i class="fas fa-calendar-plus"></i> Schedule
+                        </button>
                     </div>
-                    <div class="patient-detail">
-                        <i class="fas fa-history"></i>
-                        <span>Last Visit: ${lastVisitDate}</span>
-                    </div>
-                </div>
-                <div class="patient-card-footer">
-                    <button class="btn-secondary" onclick="viewPatientDetails('${patient.id}')">
-                        <i class="fas fa-eye"></i> View Details
-                    </button>
-                    <button class="btn-primary" onclick="scheduleAppointment('${patient.id}')">
-                        <i class="fas fa-calendar-plus"></i> Schedule
-                    </button>
                 </div>
             </div>
             `;
         });
         
-        patientCardsContainer.innerHTML = patientsHTML;
+        patientCardsContainer.innerHTML = patientHTML;
     }
     
     function filterPatients() {
@@ -887,4 +871,3 @@ function viewPatientDetails(patientId) {
 function scheduleAppointment(patientId) {
     alert(`Scheduling functionality for patient ${patientId} not implemented yet.`);
 }
-
