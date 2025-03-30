@@ -1,92 +1,490 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediCare - Diagnosis & Pharmacy</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* ... (keep all previous CSS the same) ... */
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disease Risk Assessment Tool</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-light: #4895ef;
+      --danger: #f72585;
+      --warning: #f8961e;
+      --success: #4cc9f0;
+      --dark: #2b2d42;
+      --light: #f8f9fa;
+      --gray: #adb5bd;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.6s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h1 {
+      text-align: center;
+      color: var(--dark);
+      margin-bottom: 25px;
+      font-weight: 600;
+      position: relative;
+    }
+    h1::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--primary);
+      margin: 10px auto 0;
+      border-radius: 2px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+      animation: slideUp 0.5s ease-out;
+      animation-fill-mode: backwards;
+    }
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .form-group:nth-child(4) { animation-delay: 0.4s; }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    input, select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    input:focus, select:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+      outline: none;
+    }
+    .row {
+      display: flex;
+      gap: 15px;
+    }
+    .row .form-group {
+      flex: 1;
+    }
+    button {
+      background: linear-gradient(to right, var(--primary), var(--primary-light));
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      width: 100%;
+      margin-top: 15px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    #result {
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 12px;
+      display: none;
+      animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .risk-high {
+      background-color: #fff5f5;
+      border-left: 5px solid var(--danger);
+    }
+    .risk-medium {
+      background-color: #fff9e6;
+      border-left: 5px solid var(--warning);
+    }
+    .risk-low {
+      background-color: #f0fdf4;
+      border-left: 5px solid var(--success);
+    }
+    .bmi-value {
+      font-weight: bold;
+    }
+    .underweight { color: var(--warning); }
+    .normal { color: var(--success); }
+    .overweight { color: var(--warning); }
+    .obese { color: var(--danger); }
+    .spinner {
+      display: none;
+      width: 40px;
+      height: 40px;
+      margin: 20px auto;
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.4); }
+      70% { box-shadow: 0 0 0 12px rgba(67, 97, 238, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
+    }
+    .result-item {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #e9ecef;
+      animation: fadeInItem 0.5s ease-out;
+    }
+    .result-item:last-child {
+      border-bottom: none;
+    }
+    @keyframes fadeInItem {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .heartbeat {
+      animation: heartbeat 1.5s ease infinite;
+    }
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
 </head>
 <body>
-    <!-- ... (keep all previous HTML the same until the script) ... -->
+  <div class="container">
+    <h1>Disease Risk Assessment</h1>
+    <form id="riskForm">
+      <div class="row">
+        <div class="form-group">
+          <label for="age">Age*</label>
+          <input type="number" id="age" min="1" max="120" required>
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender*</label>
+          <select id="gender" required>
+            <option value="">Select</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+      </div>
 
-    <script>
-        // ... (keep medicineImages and medicineDatabase the same) ...
+      <div class="row">
+        <div class="form-group">
+          <label for="height">Height (cm)*</label>
+          <input type="number" id="height" min="100" max="250" required>
+        </div>
+        <div class="form-group">
+          <label for="weight">Weight (kg)*</label>
+          <input type="number" id="weight" min="30" max="200" required>
+        </div>
+        <div class="form-group">
+          <label for="bmi">BMI</label>
+          <input type="text" id="bmi" readonly>
+        </div>
+      </div>
 
-        // Case-insensitive disease matching function
-        function findMatchingDisease(userInput) {
-            const diseases = Object.keys(medicineDatabase);
-            const lowerInput = userInput.toLowerCase().trim();
-            
-            // Try exact match first
-            for (const disease of diseases) {
-                if (disease.toLowerCase() === lowerInput) {
-                    return disease;
-                }
-            }
-            
-            // Try partial matches
-            for (const disease of diseases) {
-                if (disease.toLowerCase().includes(lowerInput)) {
-                    return disease;
-                }
-            }
-            
-            // Try common alternative spellings
-            const alternatives = {
-                "flu": "Flu (Influenza)",
-                "cold": "Common Cold",
-                "headache": "Migraine Headache",
-                "allergy": "Allergic Rhinitis",
-                "strep": "Strep Throat",
-                "uti": "Urinary Tract Infection",
-                "gerd": "Acid Reflux/GERD",
-                "diarrhoea": "Diarrhea",
-                "diarrhea": "Diarrhea",
-                "bronchitis": "Bronchitis",
-                "high blood pressure": "Hypertension",
-                "hypertension": "Hypertension",
-                "diabetes": "Type 2 Diabetes",
-                "vitamin deficiency": "Vitamin Deficiency"
-            };
-            
-            if (alternatives[lowerInput]) {
-                return alternatives[lowerInput];
-            }
-            
-            return null;
+      <div class="row">
+        <div class="form-group">
+          <label for="systolic">Systolic BP (mmHg)*</label>
+          <input type="number" id="systolic" min="70" max="250" required>
+        </div>
+        <div class="form-group">
+          <label for="diastolic">Diastolic BP (mmHg)*</label>
+          <input type="number" id="diastolic" min="40" max="150" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label for="cholesterol">Cholesterol (mg/dL)*</label>
+          <input type="number" id="cholesterol" min="100" max="400" required>
+        </div>
+        <div class="form-group">
+          <label for="glucose">Glucose (mg/dL)*</label>
+          <input type="number" id="glucose" min="70" max="300" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label for="smoking">Smoking*</label>
+          <select id="smoking" required>
+            <option value="">Select</option>
+            <option value="never">Never</option>
+            <option value="former">Former</option>
+            <option value="current">Current</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="alcohol">Alcohol Consumption*</label>
+          <select id="alcohol" required>
+            <option value="">Select</option>
+            <option value="none">None</option>
+            <option value="light">Light</option>
+            <option value="moderate">Moderate</option>
+            <option value="heavy">Heavy</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label for="activity">Physical Activity*</label>
+          <select id="activity" required>
+            <option value="">Select</option>
+            <option value="sedentary">Sedentary</option>
+            <option value="light">Light</option>
+            <option value="moderate">Moderate</option>
+            <option value="active">Active</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="sleep">Avg. Sleep (hours/day)*</label>
+          <input type="number" id="sleep" min="2" max="12" step="0.5" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="history">Medical History (comma-separated, e.g., diabetes, hypertension)</label>
+        <input type="text" id="history" placeholder="Enter conditions if any">
+      </div>
+
+      <button type="submit" id="submitBtn">Assess My Risk</button>
+    </form>
+
+    <div class="spinner" id="spinner"></div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Calculate BMI automatically
+    document.getElementById('height').addEventListener('input', updateBMI);
+    document.getElementById('weight').addEventListener('input', updateBMI);
+
+    function updateBMI() {
+      const height = parseFloat(document.getElementById('height').value) / 100; // cm to m
+      const weight = parseFloat(document.getElementById('weight').value);
+      
+      if (height && weight) {
+        const bmi = (weight / (height * height)).toFixed(1);
+        document.getElementById('bmi').value = bmi;
+        
+        // Color coding for BMI
+        let bmiClass = '';
+        if (bmi < 18.5) bmiClass = 'underweight';
+        else if (bmi >= 18.5 && bmi < 25) bmiClass = 'normal';
+        else if (bmi >= 25 && bmi < 30) bmiClass = 'overweight';
+        else bmiClass = 'obese';
+        
+        document.getElementById('bmi').className = bmiClass;
+      }
+    }
+
+    // Risk Assessment Logic
+    document.getElementById('riskForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const spinner = document.getElementById('spinner');
+      const resultDiv = document.getElementById('result');
+      
+      // Show loading spinner
+      submitBtn.disabled = true;
+      spinner.style.display = 'block';
+      resultDiv.style.display = 'none';
+      
+      // Simulate API call delay
+      setTimeout(() => {
+        // Get form values
+        const age = parseInt(document.getElementById('age').value);
+        const gender = document.getElementById('gender').value;
+        const height = parseFloat(document.getElementById('height').value);
+        const weight = parseFloat(document.getElementById('weight').value);
+        const systolic = parseInt(document.getElementById('systolic').value);
+        const diastolic = parseInt(document.getElementById('diastolic').value);
+        const cholesterol = parseInt(document.getElementById('cholesterol').value);
+        const glucose = parseInt(document.getElementById('glucose').value);
+        const smoking = document.getElementById('smoking').value;
+        const alcohol = document.getElementById('alcohol').value;
+        const activity = document.getElementById('activity').value;
+        const sleep = parseFloat(document.getElementById('sleep').value);
+        const history = document.getElementById('history').value.toLowerCase().split(',').map(item => item.trim());
+        
+        // Calculate BMI
+        const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+        
+        // Risk Scoring
+        let riskScore = 0;
+        
+        // Age
+        if (age > 50) riskScore += 2;
+        else if (age > 40) riskScore += 1;
+        
+        // Gender
+        if (gender === 'male') riskScore += 1;
+        
+        // BMI
+        if (bmi >= 30) riskScore += 3;
+        else if (bmi >= 25) riskScore += 2;
+        else if (bmi < 18.5) riskScore += 1;
+        
+        // Blood Pressure
+        if (systolic >= 140 || diastolic >= 90) riskScore += 3;
+        else if (systolic >= 130 || diastolic >= 85) riskScore += 2;
+        
+        // Cholesterol
+        if (cholesterol >= 240) riskScore += 3;
+        else if (cholesterol >= 200) riskScore += 2;
+        
+        // Glucose
+        if (glucose >= 126) riskScore += 3;
+        else if (glucose >= 100) riskScore += 1;
+        
+        // Lifestyle
+        if (smoking === 'current') riskScore += 4;
+        else if (smoking === 'former') riskScore += 2;
+        
+        if (alcohol === 'heavy') riskScore += 2;
+        else if (alcohol === 'moderate') riskScore += 1;
+        
+        if (activity === 'sedentary') riskScore += 2;
+        else if (activity === 'light') riskScore += 1;
+        
+        if (sleep < 6 || sleep > 9) riskScore += 1;
+        
+        // Medical History
+        if (history.includes('diabetes')) riskScore += 3;
+        if (history.includes('hypertension')) riskScore += 2;
+        if (history.includes('heart disease')) riskScore += 4;
+        
+        // Determine Risk Level
+        let riskLevel, advice, riskClass;
+        if (riskScore >= 15) {
+          riskLevel = 'High Risk';
+          advice = 'Consult a doctor immediately. Lifestyle changes and medical intervention are strongly recommended.';
+          riskClass = 'risk-high';
+        } else if (riskScore >= 8) {
+          riskLevel = 'Medium Risk';
+          advice = 'Monitor your health regularly. Consider lifestyle improvements and consult a doctor if symptoms arise.';
+          riskClass = 'risk-medium';
+        } else {
+          riskLevel = 'Low Risk';
+          advice = 'Maintain your healthy habits! Regular check-ups are still advised.';
+          riskClass = 'risk-low';
         }
-
-        // Updated submitDiagnosis function with case-insensitive matching
-        function submitDiagnosis() {
-            const patientName = document.getElementById('patientName').value;
-            const diagnosisInput = document.getElementById('diagnosis').value;
-            
-            if (!patientName || !diagnosisInput) {
-                alert('Please enter patient name and diagnosis');
-                return;
-            }
-            
-            // Find the matching disease (case-insensitive)
-            const matchedDisease = findMatchingDisease(diagnosisInput);
-            
-            if (!matchedDisease) {
-                alert('No matching disease found. Please try a different description.');
-                return;
-            }
-            
-            // Show diagnosis result
-            resultName.textContent = patientName;
-            resultDisease.textContent = matchedDisease;
-            diagnosisResult.classList.add('show');
-            
-            // Show recommended medicines
-            showRecommendedMedicines(matchedDisease);
-        }
-
-        // ... (keep all other JavaScript functions the same) ...
-    </script>
+        
+        // Display Result
+        spinner.style.display = 'none';
+        resultDiv.style.display = 'block';
+        resultDiv.className = riskClass;
+        submitBtn.disabled = false;
+        
+        resultDiv.innerHTML = `
+          <div class="result-item" style="animation-delay: 0.1s">
+            <h3>Your Risk Assessment</h3>
+          </div>
+          <div class="result-item" style="animation-delay: 0.2s">
+            <p><strong>Risk Level:</strong> <span class="${riskScore >= 15 ? 'obese heartbeat' : riskScore >= 8 ? 'overweight' : 'normal'}">${riskLevel}</span></p>
+          </div>
+          <div class="result-item" style="animation-delay: 0.3s">
+            <p><strong>BMI:</strong> ${bmi} (<span class="${getBMIClass(bmi)}">${getBMICategory(bmi)}</span>)</p>
+          </div>
+          <div class="result-item" style="animation-delay: 0.4s">
+            <p><strong>Blood Pressure:</strong> ${systolic}/${diastolic} mmHg (${getBPCategory(systolic, diastolic)})</p>
+          </div>
+          <div class="result-item" style="animation-delay: 0.5s">
+            <p><strong>Cholesterol:</strong> ${cholesterol} mg/dL (${getCholesterolCategory(cholesterol)})</p>
+          </div>
+          <div class="result-item" style="animation-delay: 0.6s">
+            <p><strong>Glucose:</strong> ${glucose} mg/dL (${getGlucoseCategory(glucose)})</p>
+          </div>
+          <div class="result-item" style="animation-delay: 0.7s">
+            <p><strong>Advice:</strong> ${advice}</p>
+          </div>
+        `;
+      }, 1500);
+    });
+    
+    // Helper Functions
+    function getBMIClass(bmi) {
+      bmi = parseFloat(bmi);
+      if (bmi < 18.5) return 'underweight';
+      else if (bmi < 25) return 'normal';
+      else if (bmi < 30) return 'overweight';
+      else return 'obese';
+    }
+    
+    function getBMICategory(bmi) {
+      bmi = parseFloat(bmi);
+      if (bmi < 18.5) return 'Underweight';
+      else if (bmi < 25) return 'Normal';
+      else if (bmi < 30) return 'Overweight';
+      else return 'Obese';
+    }
+    
+    function getBPCategory(systolic, diastolic) {
+      if (systolic >= 140 || diastolic >= 90) return 'High (Hypertension)';
+      else if (systolic >= 130 || diastolic >= 85) return 'Elevated';
+      else return 'Normal';
+    }
+    
+    function getCholesterolCategory(chol) {
+      if (chol >= 240) return 'High';
+      else if (chol >= 200) return 'Borderline High';
+      else return 'Normal';
+    }
+    
+    function getGlucoseCategory(glucose) {
+      if (glucose >= 126) return 'High (Diabetes)';
+      else if (glucose >= 100) return 'Prediabetes';
+      else return 'Normal';
+    }
+  </script>
 </body>
 </html>

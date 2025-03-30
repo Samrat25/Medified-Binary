@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disease Risk Assessment Tool</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-light: #4895ef;
+      --danger: #f72585;
+      --warning: #f8961e;
+      --success: #4cc9f0;
+      --dark: #2b2d42;
+      --light: #f8f9fa;
+      --gray: #adb5bd;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.6s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h1 {
+      text-align: center;
+      color: var(--dark);
+      margin-bottom: 25px;
+      font-weight: 600;
+      position: relative;
+    }
+    h1::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--primary);
+      margin: 10px auto 0;
+      border-radius: 2px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+      animation: slideUp 0.5s ease-out;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    input, select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    input:focus, select:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+      outline: none;
+    }
+    .row {
+      display: flex;
+      gap: 15px;
+    }
+    .row .form-group {
+      flex: 1;
+    }
+    button {
+      background: linear-gradient(to right, var(--primary), var(--primary-light));
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      width: 100%;
+      margin-top: 15px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    #result {
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 12px;
+      display: none;
+      animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .risk-high {
+      background-color: #fff5f5;
+      border-left: 5px solid var(--danger);
+    }
+    .risk-medium {
+      background-color: #fff9e6;
+      border-left: 5px solid var(--warning);
+    }
+    .risk-low {
+      background-color: #f0fdf4;
+      border-left: 5px solid var(--success);
+    }
+    .bmi-value {
+      font-weight: bold;
+    }
+    .underweight { color: var(--warning); }
+    .normal { color: var(--success); }
+    .overweight { color: var(--warning); }
+    .obese { color: var(--danger); }
+    .spinner {
+      display: none;
+      width: 40px;
+      height: 40px;
+      margin: 20px auto;
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.4); }
+      70% { box-shadow: 0 0 0 12px rgba(67, 97, 238, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
+    }
+    .result-item {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #e9ecef;
+    }
+    .result-item:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Disease Risk Assessment</h1>
+    <form id="riskForm">
+      <!-- Form fields remain the same as before -->
+      <!-- ... (same HTML structure for form inputs) ... -->
+      <button type="submit" id="submitBtn">Assess My Risk</button>
+    </form>
+
+    <div class="spinner" id="spinner"></div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Previous JavaScript remains the same until the form submission
+    document.getElementById('riskForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const spinner = document.getElementById('spinner');
+      const resultDiv = document.getElementById('result');
+      
+      // Show loading spinner
+      submitBtn.disabled = true;
+      spinner.style.display = 'block';
+      resultDiv.style.display = 'none';
+      
+      // Simulate API call delay (replace with real logic)
+      setTimeout(() => {
+        // Get form values (same as before)
+        const age = parseInt(document.getElementById('age').value);
+        // ... (rest of your risk calculation logic) ...
+        
+        // Hide spinner and show result
+        spinner.style.display = 'none';
+        resultDiv.style.display = 'block';
+        submitBtn.disabled = false;
+        
+        // Result display (same as before)
+        resultDiv.innerHTML = `
+          <div class="result-item">
+            <h3>Your Risk Assessment</h3>
+          </div>
+          <div class="result-item">
+            <p><strong>Risk Level:</strong> <span class="bmi-value ${riskScore >= 15 ? 'obese' : riskScore >= 8 ? 'overweight' : 'normal'}">${riskLevel}</span></p>
+          </div>
+          <div class="result-item">
+            <p><strong>BMI:</strong> ${bmi} (<span class="${getBMIClass(bmi)}">${getBMICategory(bmi)}</span>)</p>
+          </div>
+          <div class="result-item">
+            <p><strong>Advice:</strong> ${advice}</p>
+          </div>
+        `;
+      }, 1500); // Simulate 1.5s delay
+    });
+    
+    // Rest of your helper functions (getBMIClass, getBPCategory, etc.) remain the same
+  </script>
+</body>
+</html>

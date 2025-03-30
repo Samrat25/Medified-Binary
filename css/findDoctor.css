@@ -127,7 +127,7 @@ nav ul li a {
 }
 
 nav ul li a:hover, nav ul li a.active {
-    color: blueviolet;
+    color: #4285f4;
     text-decoration: bold;
 }
 
