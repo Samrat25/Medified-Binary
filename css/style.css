@@ -186,6 +186,9 @@ nav ul li a:hover, nav ul li a.active {
 .hero-buttons {
     display: flex;
     gap: 15px;
+    animation-duration: 3s;
+    animation-name: slide-in;
+    animation-iteration-count: 1;
 }
 
 .hero-image {
