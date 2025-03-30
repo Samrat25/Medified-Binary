@@ -22,8 +22,8 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background: #00C9FF;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #92FE9D, #00C9FF);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #92FE9D, #00C9FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: -webkit-linear-gradient(to right,#CAF0F8,#ADE8F4,#48CAE4,#00B4D8,#0096C7,#0077B6,#023E8A);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #CAF0F8,#ADE8F4,#48CAE4,#00B4D8,#0096C7,#0077B6,#023E8A);/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .container {
@@ -59,13 +59,13 @@ ul {
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
+    background-color: rgb(56, 56, 93);
     color: var(--light-color);
     border: none;
 }
 
 .btn-primary:hover {
-    background-color: #3367d6;
+    background-color: #000000;
     transform: translateY(-2px);
 }
 
@@ -89,8 +89,8 @@ header {
     right: 0;
     z-index: 100;
     background: #00C9FF;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #92FE9D, #00C9FF);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #92FE9D, #00C9FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: -webkit-linear-gradient(to right,#CAF0F8,#ADE8F4,#48CAE4,#00B4D8,#0096C7,#0077B6,#023E8A);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #CAF0F8,#ADE8F4,#48CAE4,#00B4D8,#0096C7,#0077B6,#023E8A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     box-shadow: 5px 0px 5px rgb(103, 103, 103);
 }
 
@@ -103,7 +103,7 @@ header .container {
 }
 
 .logo h1 {
-    color: var(--primary-color);
+    color: black;                                                                                               
     font-size: 1.8rem;
     display: flex;
     align-items: center;
@@ -129,7 +129,8 @@ nav ul li a {
 }
 
 nav ul li a:hover, nav ul li a.active {
-    color: var(--primary-color);
+    color: blueviolet;
+    text-decoration: bold;
 }
 
 /* Hero Section */
@@ -206,7 +207,7 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .feature-card {
-    background-color: var(--light-color);
+    background-color: rgb(6, 39, 89);
     padding: 30px;
     border-radius: 10px;
     box-shadow: var(--shadow);
@@ -228,7 +229,10 @@ nav ul li a:hover, nav ul li a.active {
 .feature-card h3 {
     font-size: 1.5rem;
     margin-bottom: 15px;
-    color: var(--dark-color);
+    color: skyblue;
+}
+.feature-card p{
+    color:skyblue;
 }
 
 /* About Section */
@@ -365,13 +369,13 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .tool-header h1 {
-    color: var(--primary-color);
+    color: black;
     font-size: 2.5rem;
     margin-bottom: 10px;
 }
 
 .tool-header p {
-    color: #666;
+    color: black;
     font-size: 1.1rem;
     max-width: 80%;
     margin: 0 auto;
@@ -558,7 +562,8 @@ nav ul li a:hover, nav ul li a.active {
 .auth-container {
     max-width: 500px;
     margin: 0 auto;
-    background-color: var(--light-color);
+    background: -webkit-linear-gradient(to right,#00B4D8,#0096C7,#0077B6,#023E8A);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #00B4D8,#0096C7,#0077B6,#023E8A);
     border-radius: 10px;
     box-shadow: var(--shadow);
     overflow: hidden;
@@ -581,7 +586,7 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .auth-tab.active {
-    background-color: var(--light-color);
+    background: linear-gradient(to right, #CAF0F8,#ADE8F4,#48CAE4);
     color: var(--primary-color);
     border-bottom: 3px solid var(--primary-color);
 }
