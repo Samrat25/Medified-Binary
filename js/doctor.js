@@ -100,21 +100,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Functions
     function initializePage() {
         // Set user name and initials
-        const fullName = currentUser.name || 'Doctor';
-        const initials = getInitials(fullName);
-        
         if (userNameElements) {
-            userNameElements.forEach(el => {
-                el.textContent = `Dr. ${fullName}`;
+            userNameElements.forEach(element => {
+                element.textContent = currentUser.name;
             });
         }
-        
         if (userSpecializationElement) {
-            userSpecializationElement.textContent = currentUser.specialization || 'General Physician';
+            userSpecializationElement.textContent = currentUser.specialization;
         }
         
         if (userInitialsElement) {
-            userInitialsElement.textContent = initials;
+            userInitialsElement.textContent = getInitials(currentUser.name);
         }
         
         // Load appointments
@@ -892,7 +888,3 @@ function scheduleAppointment(patientId) {
     alert(`Scheduling functionality for patient ${patientId} not implemented yet.`);
 }
 
-// function startVideoCallWithPatient(patientId) {
-//    const callId = `CALL-${patientId}-${Math.floor(Math.random() * 1000)}`;
-//    window.open(`WEB_UIKITS.html?roomID=${callId}`, '_blank');
-// }
