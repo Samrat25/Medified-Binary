@@ -110,9 +110,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 user.experience = experience || 0;
                 user.license = license;
                 user.appointments = [];
+                user.patients = [];
                 
-                // Since specialization is removed, assign a default value
-                user.specialization = "General Physician";
+                // Get specialization if available in the form, otherwise use default
+                const specializationField = document.getElementById('specialization');
+                user.specialization = (specializationField && specializationField.value) ? 
+                    specializationField.value : "General Physician";
+                    
+                // Ensure doctor has an avatar color for consistency
+                user.avatarColor = getRandomColor();
             } else if (userType === 'patient') {
                 user.appointments = [];
             }
@@ -260,3 +266,12 @@ function initializeTestData() {
 
 // Call to initialize test data
 initializeTestData();
+
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}

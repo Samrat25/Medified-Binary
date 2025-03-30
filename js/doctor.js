@@ -100,17 +100,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // Functions
     function initializePage() {
         // Set user name and initials
-        if (userNameElements) {
+        if (userNameElements && userNameElements.length > 0) {
             userNameElements.forEach(element => {
-                element.textContent = currentUser.name;
+                element.textContent = currentUser.name || 'Doctor';
             });
         }
+        
         if (userSpecializationElement) {
-            userSpecializationElement.textContent = currentUser.specialization;
+            userSpecializationElement.textContent = currentUser.specialization || 'Specialist';
         }
         
         if (userInitialsElement) {
-            userInitialsElement.textContent = getInitials(currentUser.name);
+            userInitialsElement.textContent = getInitials(currentUser.name || 'Doctor');
+            
+            // Add user avatar color if available
+            if (currentUser.avatarColor) {
+                userInitialsElement.style.backgroundColor = currentUser.avatarColor;
+            }
         }
         
         // Load appointments
@@ -126,6 +132,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (videoCallIdDisplay && !videoCallIdDisplay.textContent) {
             videoCallIdDisplay.textContent = `DR-${Math.floor(Math.random() * 10000) + 1}`;
         }
+        
+        console.log("Doctor dashboard initialized with user:", currentUser);
     }
     
     function getInitials(name) {
