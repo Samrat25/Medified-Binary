@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
             image: "https://randomuser.me/api/portraits/women/28.jpg"
         },
         {
-            id: 6,
+            id: 18,
             name: "Dr. Robert Thompson",
             specialty: "Neurology",
             address: "303 Brain Center Dr, Anytown, ST 12345",
@@ -364,9 +364,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     ${doctor.acceptsNewPatients ? '<span class="doctor-availability" style="color:green;margin-left:10px;"><i class="fas fa-check-circle"></i> Accepting new patients</span>' : '<span class="doctor-availability" style="color:red;margin-left:10px;"><i class="fas fa-times-circle"></i> Not accepting new patients</span>'}
                 </div>
                 <div class="doctor-actions">
-                    <button class="action-btn book-btn" data-id="${doctor.id}">
+                    <a href="index.html"><button class="action-btn book-btn" data-id="${doctor.id}">
                         <i class="fas fa-calendar-check"></i> Book Appointment
-                    </button>
+                    </button></a>
                     <button class="action-btn directions-btn" data-id="${doctor.id}">
                         <i class="fas fa-directions"></i> Get Directions
                     </button>
