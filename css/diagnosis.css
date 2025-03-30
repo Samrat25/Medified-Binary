@@ -57,7 +57,9 @@ nav ul li a {
 }
 
 nav ul li a:hover, nav ul li a.active {
-    color: var(--primary-color);
+    color: #000000; 
+    text-decoration: bold;
+    scale: 1.05;
 }
 
 
