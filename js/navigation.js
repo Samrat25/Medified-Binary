@@ -79,7 +79,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Profile link (common for both user types)
     if (profileLink) {
         profileLink.addEventListener('click', function() {
-            window.location.href = 'profile.html';
+            if (currentUser.userType === 'patient') {
+                window.location.href = 'profile.html';
+            } else if (currentUser.userType === 'doctor') {
+                window.location.href = 'profile.html';
+            }
         });
     }
     

@@ -25,6 +25,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const completedCountElement = document.getElementById('completedCount');
     const filterButtons = document.querySelectorAll('.filter-btn');
     
+    // Notification elements
+    const notificationBtn = document.getElementById('notificationBtn');
+    const notificationBadge = document.getElementById('notificationBadge');
+    const notificationDropdown = document.getElementById('notificationDropdown');
+    const notificationContent = document.getElementById('notificationContent');
+    
     // Initialize page
     initializePage();
     
@@ -61,6 +67,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Notification button event listener
+    if (notificationBtn) {
+        notificationBtn.addEventListener('click', toggleNotificationDropdown);
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!notificationBtn.contains(event.target) && !notificationDropdown.contains(event.target)) {
+                notificationDropdown.classList.remove('show');
+            }
+        });
+    }
+    
     // Functions
     function initializePage() {
         // Set user information
@@ -86,6 +104,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update dashboard counts
         updateDashboardCounts();
+        
+        // Load notifications
+        loadNotifications();
     }
     
     function getInitials(name) {
@@ -407,7 +428,73 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDashboardCounts();
         
         alert('Appointment booked successfully!');
-        window.location.href = 'patient-dashboard.html';
+    }
+    
+    // Notification Functions
+    function toggleNotificationDropdown() {
+        notificationDropdown.classList.toggle('show');
+    }
+    
+    function loadNotifications() {
+        if (!notificationContent || !notificationBadge) return;
+        
+        // Get current user's appointments
+        const appointments = currentUser.appointments || [];
+        
+        // Filter upcoming appointments for notifications
+        const upcomingAppointments = appointments.filter(appointment => 
+            appointment.status === 'Upcoming'
+        );
+        
+        // Sort by date (most recent first)
+        upcomingAppointments.sort((a, b) => new Date(a.date) - new Date(b.date));
+        
+        // Update notification badge count
+        const notificationCount = upcomingAppointments.length;
+        notificationBadge.textContent = notificationCount;
+        
+        // Show/hide badge based on count
+        if (notificationCount === 0) {
+            notificationBadge.style.display = 'none';
+        } else {
+            notificationBadge.style.display = 'flex';
+        }
+        
+        // Generate notification items HTML
+        if (upcomingAppointments.length === 0) {
+            notificationContent.innerHTML = '<div class="notification-empty">No notifications</div>';
+            return;
+        }
+        
+        let notificationsHTML = '';
+        
+        upcomingAppointments.forEach(appointment => {
+            const appointmentDate = new Date(appointment.date);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const isToday = appointmentDate.getTime() === today.getTime();
+            const isTomorrow = appointmentDate.getTime() === today.getTime() + 86400000;
+            
+            let dateLabel = formatDate(appointment.date);
+            if (isToday) dateLabel = 'Today';
+            if (isTomorrow) dateLabel = 'Tomorrow';
+            
+            const doctors = JSON.parse(localStorage.getItem('doctors')) || [];
+            const doctor = doctors.find(doc => doc.id === appointment.doctorId) || { name: 'Unknown Doctor' };
+            
+            notificationsHTML += `
+            <div class="notification-item" onclick="viewAppointmentDetails('${appointment.id}')">
+                <div class="notification-content">
+                    <div class="notification-title">Appointment with ${doctor.name}</div>
+                    <div class="notification-message">${dateLabel} at ${appointment.time}</div>
+                </div>
+                <div class="notification-time">${appointment.type}</div>
+            </div>
+            `;
+        });
+        
+        notificationContent.innerHTML = notificationsHTML;
     }
 });
 
