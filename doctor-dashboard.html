@@ -256,5 +256,38 @@
 
     <script src="js/navigation.js"></script>
     <script src="js/doctor.js"></script>
+    <script>
+        // Additional initialization to ensure doctor information is loaded properly
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get current user
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser && currentUser.userType === 'doctor') {
+                // Update all user name elements
+                const userNameElements = document.querySelectorAll('.user-name');
+                userNameElements.forEach(element => {
+                    element.textContent = currentUser.name;
+                });
+                
+                // Update specialization
+                const userSpecializationElement = document.querySelector('.user-specialization');
+                if (userSpecializationElement) {
+                    userSpecializationElement.textContent = currentUser.specialization || 'Specialist';
+                }
+                
+                // Update avatar/initials
+                const userInitialsElements = document.querySelectorAll('.user-initials');
+                userInitialsElements.forEach(element => {
+                    const initials = currentUser.name
+                        .split(' ')
+                        .map(word => word.charAt(0))
+                        .join('')
+                        .toUpperCase();
+                    element.textContent = initials;
+                });
+                
+                console.log('Additional doctor profile initialization complete');
+            }
+        });
+    </script>
 </body>
 </html>
