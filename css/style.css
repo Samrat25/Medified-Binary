@@ -103,7 +103,7 @@ header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* padding: 15px; */
+    padding: 9px;
 
 }
 
@@ -613,6 +613,7 @@ nav ul li a:hover, nav ul li a.active {
 
 .form-group {
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .form-group label {
@@ -1524,4 +1525,10 @@ footer {
     .auth-form {
         padding: 20px;
     }
+}
+
+.final-button{
+    width: 100%;
+    text-align: center;
+    margin-top: 90px;
 }
