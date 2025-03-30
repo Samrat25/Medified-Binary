@@ -682,6 +682,7 @@ nav ul li a:hover, nav ul li a.active {
 .user-type-option:hover .user-type-card {
     border-color: #4a80f5;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    scale : 1.05;
 }
 
 .user-type-option input[type="radio"]:checked + .user-type-card,
