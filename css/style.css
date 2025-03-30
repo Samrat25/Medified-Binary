@@ -191,9 +191,7 @@ nav ul li a:hover, nav ul li a.active {
 .hero-image {
     flex: 1;
     text-align: center;
-    animation-duration: 3s;
-    animation-name: slide-in;
-    animation-iteration-count: 1;
+    
 }
 }
 
