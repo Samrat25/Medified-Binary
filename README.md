@@ -79,15 +79,12 @@ Create a pull request on GitHub.
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 🙌 **Acknowledgements:**
-React.js, Node.js, and Express.js for building the web app.
 
 Local Storage for data management.
 
 Zegocloud API for enabling video consultations.
 
-Dialogflow for chatbot functionality.
-
-TensorFlow for creating AI-powered features.
+Botpress for chatbot functionality.
 
 Mapped/Manual Doctor Integration for finding doctors and booking consultations.
 
