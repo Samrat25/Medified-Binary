@@ -278,7 +278,14 @@
         (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="zGJ8FiJ9YLdxPSoHXUqKs";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
         </script>
    
-   <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+   <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+        <script type="module">
+	        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+	        createChat({
+		        webhookUrl: 'https://nilarpan.app.n8n.cloud/webhook/a889d2ae-2159-402f-b326-5f61e90f602e/chat'
+	        });
+        </script>
    <script src="https://files.bpcontent.cloud/2025/03/29/17/20250329173911-SFFEPCAS.js"></script>
     <script src="js/auth.js"></script>
 </body>
